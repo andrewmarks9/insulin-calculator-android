@@ -22,7 +22,7 @@ export function saveHistoryItem(item) {
                 const reducedHistory = history.slice(0, Math.floor(MAX_HISTORY_ITEMS / 2));
                 localStorage.setItem(HISTORY_KEY, JSON.stringify(reducedHistory));
                 throw new Error('Storage quota exceeded. Older history items were removed.');
-            } catch (retryError) {
+            } catch {
                 throw new Error('Unable to save: storage is full. Please clear some history.');
             }
         }

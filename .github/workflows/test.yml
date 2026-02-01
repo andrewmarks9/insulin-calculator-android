@@ -5,6 +5,7 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
+  workflow_dispatch:
 
 jobs:
   test:
@@ -25,6 +26,9 @@ jobs:
       
     - name: Run linter
       run: npm run lint
+      
+    - name: Run tests
+      run: npm test
       
     - name: Build project
       run: npm run build

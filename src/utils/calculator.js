@@ -10,8 +10,7 @@ export function calculateDose({
   targetBG,
   correctionFactor,
   carbs,
-  carbRatio,
-  unit = UNITS.MGDL
+  carbRatio
 }) {
   const current = parseFloat(currentBG);
   const target = parseFloat(targetBG);
