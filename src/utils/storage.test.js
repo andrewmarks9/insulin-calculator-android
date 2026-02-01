@@ -18,7 +18,7 @@ const localStorageMock = (() => {
   };
 })();
 
-global.localStorage = localStorageMock;
+globalThis.localStorage = localStorageMock;
 
 describe('storage', () => {
   beforeEach(() => {
