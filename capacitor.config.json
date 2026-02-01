@@ -1,0 +1,8 @@
+{
+  "appId": "com.amarks.insulincalculator",
+  "appName": "Insulin Calculator",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}
