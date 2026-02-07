@@ -85,99 +85,28 @@ npx cap open android
 # Build and run from Android Studio
 ```
 
-## Git Workflow
+## Development & Contributing
 
-### Initial Setup (First Time)
+For comprehensive guides on Git workflows, building locally, permissions, and more, see [DEVELOPMENT.md](DEVELOPMENT.md).
 
-If this is a new project without Git initialized:
-
+**Quick Git setup:**
 ```bash
-# Initialize Git repository
-git init
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
 
-# Add all files to staging
+# Commit and push workflow
 git add .
-
-# Create initial commit
-git commit -m "Initial commit: Insulin Calculator Android App"
-
-# Add remote repository (replace with your GitHub URL)
-git remote add origin https://github.com/yourusername/insulin-calculator-android.git
-
-# Push to GitHub
-git branch -M main
-git push -u origin main
-```
-
-### Daily Development Workflow
-
-```bash
-# Check current status
-git status
-
-# See what changed
-git diff
-
-# Add specific files
-git add src/App.jsx src/utils/storage.js
-
-# Or add all changes
-git add .
-
-# Commit with descriptive message
-git commit -m "Add improved PDF export with error handling"
-
-# Push to remote
+git commit -m "Clear description of changes"
 git push
 ```
 
-### Common Git Commands
-
+**Create a release:**
 ```bash
-# View commit history
-git log --oneline
-
-# Create a new branch for a feature
-git checkout -b feature/new-calculator-mode
-
-# Switch back to main branch
-git checkout main
-
-# Merge feature branch into main
-git merge feature/new-calculator-mode
-
-# Pull latest changes from remote
-git pull
-
-# Discard local changes to a file
-git checkout -- src/App.jsx
-
-# Undo last commit (keep changes)
-git reset --soft HEAD~1
-
-# View all branches
-git branch -a
-
-# Delete a branch
-git branch -d feature/old-feature
+git tag v0.1.0
+git push origin v0.1.0
 ```
 
-### Commit Message Guidelines
-
-Use clear, descriptive commit messages:
-
-```bash
-# Good examples
-git commit -m "Add PDF export functionality"
-git commit -m "Fix storage quota exceeded error"
-git commit -m "Update README with installation instructions"
-git commit -m "Refactor calculator logic for better performance"
-
-# Bad examples (avoid these)
-git commit -m "fix bug"
-git commit -m "update"
-git commit -m "changes"
-```
+See [AUTOMATE_RELEASES.md](AUTOMATE_RELEASES.md) for automatic APK building on GitHub.
 
 ### .gitignore
 
@@ -279,15 +208,16 @@ Settings are automatically saved to LocalStorage.
 
 ## Recent Improvements
 
-### File Saving Enhancements (2026-01-03)
-- ✅ PDF exports now save to Documents directory (permanent storage)
-- ✅ Better filename format with readable dates
-- ✅ Loading states and success/error notifications
-- ✅ LocalStorage quota management (max 1,000 history items)
-- ✅ Comprehensive error handling with user-friendly messages
-- ✅ Confirmation dialogs for destructive actions
+This app includes modern improvements for reliability and user experience:
+- ✅ **Automated APK Releases**: Push a git tag to automatically build and release on GitHub
+- ✅ **PDF Export with Error Handling**: Professional PDF generation with recovery from failures
+- ✅ **Smart File Saving**: Saves to Documents with fallback to Cache directory
+- ✅ **Permissions Handling**: Automatically requests storage permissions on Android 13+
+- ✅ **LocalStorage Quota Management**: Auto-cleanup of old history (max 1,000 items)
+- ✅ **User-Friendly Error Messages**: Clear guidance when something goes wrong
+- ✅ **Confirmation Dialogs**: Prevents accidental data loss
 
-See [FILE_SAVING_IMPROVEMENTS.md](FILE_SAVING_IMPROVEMENTS.md) for details.
+See [DEVELOPMENT.md](DEVELOPMENT.md) for technical details.
 
 ## Troubleshooting
 
