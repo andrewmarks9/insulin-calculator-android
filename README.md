@@ -315,7 +315,7 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v1.0.0 (Current)
+### v0.1.0 (Current)
 - Initial release
 - Insulin dose calculator
 - History tracking with PDF export
