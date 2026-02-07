@@ -11,6 +11,7 @@ A modern, user-friendly Android application for calculating insulin doses based 
 ![Platform](https://img.shields.io/badge/platform-Android-green.svg)
 ![Build Status](https://github.com/andrewmarks9/insulin-calculator-android/actions/workflows/build-release.yml/badge.svg)
 ![Tests](https://github.com/andrewmarks9/insulin-calculator-android/actions/workflows/test.yml/badge.svg)
+[![Latest Release](https://img.shields.io/github/v/release/andrewmarks9/insulin-calculator-android?label=Latest%20Release&color=blue)](https://github.com/andrewmarks9/insulin-calculator-android/releases)
 
 ## ⚠️ Medical Disclaimer
 
@@ -168,7 +169,7 @@ Pre-built APK files are automatically available after each version release:
 1. Go to your GitHub repository
 2. Click **Releases** on the right sidebar
 3. Click the latest release
-4. Download the `app-release.apk` file
+4. Download the `insulin-calculator-release.apk` file
 5. Transfer to your Android device and open to install
 
 **Note**: Releases are created by pushing version tags:
