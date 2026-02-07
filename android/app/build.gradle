@@ -38,6 +38,11 @@ android {
             }
         }
     }
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "insulin-calculator-${variant.buildType.name}.apk"
+        }
+    }
 }
 
 repositories {
