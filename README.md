@@ -157,6 +157,26 @@ npx cap run android     # Build and run on Android device/emulator
 npm run lint            # Run ESLint
 ```
 
+## Downloading APK Releases
+
+### From GitHub Releases (Easiest)
+
+Pre-built APK files are automatically available after each version release:
+
+1. Go to your GitHub repository
+2. Click **Releases** on the right sidebar
+3. Click the latest release
+4. Download the `app-release.apk` file
+5. Transfer to your Android device and open to install
+
+**Note**: Releases are created by pushing version tags:
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+See [AUTOMATE_RELEASES.md](AUTOMATE_RELEASES.md) for full details on automated builds.
+
 ## Building for Production
 
 ### Web Build
@@ -167,7 +187,9 @@ npm run build
 
 The optimized files will be in the `dist/` directory.
 
-### Android APK/AAB
+### Android APK/AAB (Build Locally)
+
+If you want to build the APK yourself:
 
 1. Build the web app:
    ```bash
@@ -185,7 +207,7 @@ The optimized files will be in the `dist/` directory.
    - Follow the wizard to create a release build
    - Sign with your keystore
 
-For detailed publishing instructions, see the [Publishing Guide](.agent/workflows/publishing_guide.md).
+For detailed publishing instructions, see [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## Configuration
 
