@@ -16,16 +16,26 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    def hasReleaseSigning = false
     signingConfigs {
         release {
             def keystoreFile = file("keystore.properties")
+            def props = new Properties()
             if (keystoreFile.exists()) {
-                def props = new Properties()
                 props.load(new FileInputStream(keystoreFile))
-                storeFile = file(props['storeFile'])
-                storePassword = props['storePassword']
-                keyAlias = props['keyAlias']
-                keyPassword = props['keyPassword']
+            }
+
+            def storeFilePath = props['storeFile'] ?: System.getenv('KEYSTORE_FILE')
+            def storePass = props['storePassword'] ?: System.getenv('KEYSTORE_PASSWORD')
+            def alias = props['keyAlias'] ?: System.getenv('KEY_ALIAS')
+            def keyPass = props['keyPassword'] ?: System.getenv('KEY_PASSWORD')
+
+            if (storeFilePath && storePass && alias && keyPass) {
+                storeFile = file(storeFilePath)
+                storePassword = storePass
+                keyAlias = alias
+                keyPassword = keyPass
+                hasReleaseSigning = true
             }
         }
     }
@@ -33,7 +43,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            if (file("keystore.properties").exists()) {
+            if (hasReleaseSigning) {
                 signingConfig signingConfigs.release
             }
         }
