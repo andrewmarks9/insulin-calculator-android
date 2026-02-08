@@ -50,7 +50,7 @@ jobs:
       - name: Build Signed APK
         working-directory: android
         env:
-          KEYSTORE_FILE: app/upload-keystore.jks
+          KEYSTORE_FILE: upload-keystore.jks
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
