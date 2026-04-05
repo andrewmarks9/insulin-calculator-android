@@ -19,6 +19,7 @@ function App() {
     currentBG: '',
     targetBG: '',
     carbs: '',
+    foodName: '',
     carbRatio: '',
     correctionFactor: '',
     geminiApiKey: ''
@@ -115,9 +116,9 @@ function App() {
           setIsAnalyzingImage(false);
           return;
         }
-        const estimatedCarbs = await estimateCarbsFromImage(image.base64String, `image/${image.format}`, inputs.geminiApiKey);
-        setInputs(prev => ({ ...prev, carbs: estimatedCarbs.toString() }));
-        alert(`Estimated ${estimatedCarbs}g of carbs from the image.`);
+        const { carbs: estimatedCarbs, foodName: identifiedFood } = await estimateCarbsFromImage(image.base64String, `image/${image.format}`, inputs.geminiApiKey);
+        setInputs(prev => ({ ...prev, carbs: estimatedCarbs.toString(), foodName: identifiedFood }));
+        alert(`Estimated ${estimatedCarbs}g of carbs from the image for: ${identifiedFood}`);
       }
     } catch (error) {
       console.error('Camera/AI Error:', error);
@@ -438,7 +439,7 @@ function App() {
           dateObj.toLocaleDateString(),
           dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           `${item.inputs.currentBG} ${item.inputs.unit}`,
-          `${item.inputs.carbs}g`,
+          `${item.inputs.carbs}g${item.inputs.foodName ? `\n(${item.inputs.foodName})` : ''}`,
           `${formatNumber(item.result.totalDose)} u`
         ];
       });
@@ -613,6 +614,17 @@ function App() {
                 </button>
               </div>
             </div>
+            
+            <div className="input-group">
+              <label>Food Description (Optional)</label>
+              <input
+                type="text"
+                name="foodName"
+                value={inputs.foodName}
+                onChange={handleInputChange}
+                placeholder="e.g. Slice of Pizza"
+              />
+            </div>
 
             <div className="settings-row">
               <div className="input-group">
@@ -745,7 +757,7 @@ function App() {
                         <div className="history-details">
                           <strong>{formatNumber(item.result.totalDose)} u</strong>
                           <span>BG: {item.inputs.currentBG}</span>
-                          <span>Carbs: {item.inputs.carbs}g</span>
+                          <span>Carbs: {item.inputs.carbs}g {item.inputs.foodName ? `(${item.inputs.foodName})` : ''}</span>
                         </div>
                       </li>
                     ))}
