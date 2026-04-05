@@ -21,9 +21,9 @@ Do not provide any other text or markdown formatting outside the JSON block.`;
     let text = response.text().trim();
     
     // Remove markdown code blocks if the AI includes them
-    if (text.startsWith('\`\`\`json')) {
+    if (text.startsWith('```json')) {
       text = text.slice(7, -3).trim();
-    } else if (text.startsWith('\`\`\`')) {
+    } else if (text.startsWith('```')) {
       text = text.slice(3, -3).trim();
     }
 
