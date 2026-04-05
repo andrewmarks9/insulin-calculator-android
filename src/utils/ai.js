@@ -6,12 +6,19 @@ export async function estimateCarbsFromImage(base64Image, mimeType = 'image/jpeg
   }
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-pro' });
 
-  const prompt = `Analyze this image of a meal. Return a JSON object with exactly two keys:
-1. "carbs": an integer estimating the total carbohydrates in grams.
-2. "foodName": a short 1-4 word description of the main food item.
-Do not provide any other text or markdown formatting outside the JSON block.`;
+  const prompt = `You are an expert nutritionist and diabetes educator analyzing a meal.
+1. Carefully identify all visible food items and estimate their portion sizes relative to standard plates/bowls.
+2. Pay special attention to starchy carbohydrates (bread, pasta, rice, potatoes, corn), sweet sauces, and side dishes.
+3. Mentally calculate the carbohydrates for each distinct component.
+
+Return a JSON object with exactly three keys:
+1. "reasoning": A brief 1-2 sentence breakdown of your carb estimation per ingredient.
+2. "carbs": A single integer representing your final, highly accurate estimate of the total carbohydrates in grams.
+3. "foodName": A short 1-4 word description of the main food items.
+
+Do not provide any text or markdown outside the JSON block.`;
 
   const imageParts = [{ inlineData: { data: base64Image, mimeType } }];
 
