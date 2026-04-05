@@ -6,19 +6,35 @@ export async function estimateCarbsFromImage(base64Image, mimeType = 'image/jpeg
   }
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-pro' });
+  // Reverting to Flash for 15 Requests/minute limits!
+  const model = genAI.getGenerativeModel({ 
+    model: 'gemini-2.5-flash',
+    generationConfig: {
+      responseMimeType: "application/json",
+    }
+  });
 
-  const prompt = `You are an expert nutritionist and diabetes educator analyzing a meal.
-1. Carefully identify all visible food items and estimate their portion sizes relative to standard plates/bowls.
-2. Pay special attention to starchy carbohydrates (bread, pasta, rice, potatoes, corn), sweet sauces, and side dishes.
-3. Mentally calculate the carbohydrates for each distinct component.
+  const prompt = `You are a clinical diabetes educator analyzing a meal.
+1. Identify all visible food items and estimate their weight/portion sizes relative to standard plates.
+2. Calculate the carbohydrates mathematically for each component based on standard USDA nutritional values.
+3. Pay special attention to starchy carbohydrates (bread, pasta, rice, potatoes, corn), sweet sauces, and side dishes.
 
-Return a JSON object with exactly three keys:
-1. "reasoning": A brief 1-2 sentence breakdown of your carb estimation per ingredient.
-2. "carbs": A single integer representing your final, highly accurate estimate of the total carbohydrates in grams.
-3. "foodName": A short 1-4 word description of the main food items.
+Provide a JSON object with this exact structure:
+{
+  "reasoning": "A step-by-step mathematical breakdown for each component.",
+  "carbs": 45,
+  "foodName": "Spaghetti and Meatballs"
+}
 
-Do not provide any text or markdown outside the JSON block.`;
+Example 1:
+Input image: A standard burger with bun and fries.
+Output: {
+  "reasoning": "Standard hamburger bun is ~30g carbs. Small basket of french fries (approx 70-80g) is ~35g carbs. Total: 65g.",
+  "carbs": 65,
+  "foodName": "Burger and Fries"
+}
+
+Analyze the provided image and generate the JSON output.`;
 
   const imageParts = [{ inlineData: { data: base64Image, mimeType } }];
 
