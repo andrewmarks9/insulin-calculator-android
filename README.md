@@ -238,7 +238,7 @@ Settings are automatically saved to LocalStorage.
 
 To use the AI Meal Carb Estimation feature (the camera button next to the carbs input), you must provide your own Gemini API key. This setup guarantees that the feature remains free and your usage is tied only to your personal Google account.
 
-**What the function does:** When you take a picture of a meal, the app securely sends the photo directly from your device to Google's official Gemini AI server (`gemini-1.5-flash`). It asks the AI to estimate the total grams of carbohydrates in the meal and automatically fills the "Carbs (g)" input with the result.
+**What the function does:** When you take a picture of a meal, the app securely sends the photo directly from your device to Google's official Gemini AI server (`gemini-2.5-flash`). It asks the AI to estimate the total grams of carbohydrates in the meal and automatically fills the "Carbs (g)" input with the result.
 
 **How to get and configure your free API Key:**
 1. Go to [Google AI Studio](https://aistudio.google.com/app/apikey).
