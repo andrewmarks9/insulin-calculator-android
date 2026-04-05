@@ -334,7 +334,15 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.1.0 (Current)
+### v0.2.1 (Current)
+- Replaced deprecated AI model with `gemini-2.5-flash` to restore camera carb estimation functionality.
+
+### v0.2.0
+- Added AI Meal Carb Estimation feature using Google Gemini
+- Added in-app Settings menu for secure, local API key storage
+- Upgraded project dependencies (`@capacitor/camera`)
+
+### v0.1.0
 - Initial release
 - Insulin dose calculator
 - History tracking with PDF export
