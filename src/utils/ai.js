@@ -6,7 +6,7 @@ export async function estimateCarbsFromImage(base64Image, mimeType = 'image/jpeg
   }
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
   const prompt = "Analyze this image of a meal. Estimate the total carbohydrates in grams. You must reply with ONLY a single integer representing the grams of carbs. Do not provide any other text, explanation, or units.";
 
