@@ -25,6 +25,8 @@ A modern, user-friendly Android application for calculating insulin doses based 
   - Carbohydrate intake
   - Personal carb ratio and correction factor
   
+- 📸 **AI Meal Carb Estimation** - Snap a photo of your meal and let Google's Gemini AI automatically estimate the total carbohydrates!
+  
 - 📊 **History Tracking** - Automatic logging of all calculations with timestamps
 - 📄 **PDF Export** - Export your history as a professional PDF report
 - 💾 **Persistent Settings** - Your preferences are saved automatically
@@ -228,8 +230,23 @@ Users can configure:
 - Target blood glucose
 - Carb ratio
 - Correction factor (ISF)
+- Gemini API Key (for AI tracking)
 
 Settings are automatically saved to LocalStorage.
+
+### 📸 AI Meal Carb Estimation Setup
+
+To use the AI Meal Carb Estimation feature (the camera button next to the carbs input), you must provide your own Gemini API key. This setup guarantees that the feature remains free and your usage is tied only to your personal Google account.
+
+**What the function does:** When you take a picture of a meal, the app securely sends the photo directly from your device to Google's official Gemini AI server (`gemini-1.5-flash`). It asks the AI to estimate the total grams of carbohydrates in the meal and automatically fills the "Carbs (g)" input with the result.
+
+**How to get and configure your free API Key:**
+1. Go to [Google AI Studio](https://aistudio.google.com/app/apikey).
+2. Sign in with your Google account.
+3. Click the **"Create API key"** button.
+4. Select an existing project or click **"Create API key in a new project"**.
+5. Copy the generated key.
+6. Open the app, navigate to the **Settings** tab, and securely paste your key. Your key is stored only on your local device.
 
 ## Recent Improvements
 
@@ -289,10 +306,11 @@ Contributions are welcome! Please follow these steps:
 ## Privacy
 
 This app:
-- ✅ Stores all data locally on your device
-- ✅ Does NOT send data to any servers
+- ✅ Stores all standard data locally on your device
+- ✅ Does NOT send standard configuration or history to any servers
 - ✅ Does NOT track user behavior
-- ✅ Does NOT require internet connection (except for initial install)
+- ✅ Needs an internet connection ONLY when querying the Gemini API for meal carbohydrate estimations
+- ✅ **AI Camera Note:** When utilizing the AI camera feature, images are sent *only and directly* to Google's official Generative AI endpoints to estimate carbohydrates.
 
 See the in-app Privacy Policy for complete details.
 

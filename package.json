@@ -14,10 +14,12 @@
   },
   "dependencies": {
     "@capacitor/android": "^5.7.8",
+    "@capacitor/camera": "^5.0.10",
     "@capacitor/cli": "^5.7.8",
     "@capacitor/core": "^5.7.8",
     "@capacitor/filesystem": "^5.2.2",
     "@capacitor/share": "^5.0.8",
+    "@google/generative-ai": "^0.24.1",
     "chart.js": "^4.5.1",
     "jspdf": "^3.0.4",
     "jspdf-autotable": "^5.0.2",

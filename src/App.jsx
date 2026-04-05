@@ -8,6 +8,8 @@ import { calculateDose, formatNumber, UNITS } from './utils/calculator';
 import { saveHistoryItem, getHistory, clearHistory, saveSettings, getSettings } from './utils/storage';
 import { ensureStoragePermission, checkStoragePermission, getPermissionErrorMessage, PermissionState, isNativePlatform } from './utils/permissions';
 import { PrivacyPolicy } from './PrivacyPolicy';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { estimateCarbsFromImage } from './utils/ai';
 import './App.css';
 import './PrivacyPolicy.css';
 
@@ -18,13 +20,15 @@ function App() {
     targetBG: '',
     carbs: '',
     carbRatio: '',
-    correctionFactor: ''
+    correctionFactor: '',
+    geminiApiKey: ''
   });
   const [result, setResult] = useState(null);
   const [history, setHistory] = useState([]);
   const [activeTab, setActiveTab] = useState('calculate'); // 'calculate' or 'history'
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isAnalyzingImage, setIsAnalyzingImage] = useState(false);
   const [exportStatus, setExportStatus] = useState(null); // { type: 'success' | 'error', message: string }
   const [permissionStatus, setPermissionStatus] = useState(null); // Permission state
   const [dateRange, setDateRange] = useState(30); // Days to show: 3, 7, 14, 30, 90
@@ -38,7 +42,8 @@ function App() {
         ...prev,
         targetBG: savedSettings.targetBG || '',
         carbRatio: savedSettings.carbRatio || '',
-        correctionFactor: savedSettings.correctionFactor || ''
+        correctionFactor: savedSettings.correctionFactor || '',
+        geminiApiKey: savedSettings.geminiApiKey || ''
       }));
     }
     
@@ -79,19 +84,49 @@ function App() {
     }
   };
 
-  // Save settings when they change
   useEffect(() => {
     saveSettings({
       unit,
       targetBG: inputs.targetBG,
       carbRatio: inputs.carbRatio,
-      correctionFactor: inputs.correctionFactor
+      correctionFactor: inputs.correctionFactor,
+      geminiApiKey: inputs.geminiApiKey
     });
-  }, [unit, inputs.targetBG, inputs.carbRatio, inputs.correctionFactor]);
+  }, [unit, inputs.targetBG, inputs.carbRatio, inputs.correctionFactor, inputs.geminiApiKey]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInputs(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleScanMeal = async () => {
+    try {
+      setIsAnalyzingImage(true);
+      const image = await Camera.getPhoto({
+        quality: 80,
+        allowEditing: false,
+        resultType: CameraResultType.Base64,
+        source: CameraSource.Camera
+      });
+
+      if (image.base64String) {
+        if (!inputs.geminiApiKey) {
+          alert('Please enter your Gemini API Key in the Settings tab first.');
+          setIsAnalyzingImage(false);
+          return;
+        }
+        const estimatedCarbs = await estimateCarbsFromImage(image.base64String, `image/${image.format}`, inputs.geminiApiKey);
+        setInputs(prev => ({ ...prev, carbs: estimatedCarbs.toString() }));
+        alert(`Estimated ${estimatedCarbs}g of carbs from the image.`);
+      }
+    } catch (error) {
+      console.error('Camera/AI Error:', error);
+      if (error.message && !error.message.includes('User cancelled')) {
+         alert(error.message || 'Failed to analyze meal image.');
+      }
+    } finally {
+      setIsAnalyzingImage(false);
+    }
   };
 
   const handleCalculate = () => {
@@ -511,6 +546,10 @@ function App() {
           className={activeTab === 'history' ? 'active' : ''}
           onClick={() => setActiveTab('history')}>History
         </button>
+        <button
+          className={activeTab === 'settings' ? 'active' : ''}
+          onClick={() => setActiveTab('settings')}>Settings
+        </button>
       </div>
 
       <main>
@@ -540,14 +579,39 @@ function App() {
             </div>
             <div className="input-group">
               <label>Carbs (g)</label>
-              <input
-                type="number"
-                inputMode="decimal"
-                name="carbs"
-                value={inputs.carbs}
-                onChange={handleInputChange}
-                placeholder="e.g. 60"
-              />
+              <div className="carbs-input-container" style={{ display: 'flex', gap: '10px' }}>
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  name="carbs"
+                  value={inputs.carbs}
+                  onChange={handleInputChange}
+                  placeholder="e.g. 60"
+                  style={{ flex: 1, margin: 0 }}
+                />
+                <button 
+                  type="button" 
+                  className="camera-btn" 
+                  onClick={handleScanMeal}
+                  disabled={isAnalyzingImage}
+                  style={{ 
+                    background: '#e0e7ff', 
+                    color: '#4f46e5', 
+                    border: 'none', 
+                    borderRadius: '8px', 
+                    padding: '0 15px', 
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '1.2rem',
+                    minWidth: '48px'
+                  }}
+                  title="Estimate Carbs from Photo"
+                >
+                  {isAnalyzingImage ? '⏳' : '📷'}
+                </button>
+              </div>
             </div>
 
             <div className="settings-row">
@@ -689,6 +753,40 @@ function App() {
                 </div>
               ))
             )}
+          </div>
+        )}
+
+        {activeTab === 'settings' && (
+          <div className="settings-view" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            <h2>App Settings</h2>
+            <div className="input-group">
+              <label>Gemini API Key (for Camera Carbs Estimation)</label>
+              <input
+                type="password"
+                name="geminiApiKey"
+                value={inputs.geminiApiKey}
+                onChange={handleInputChange}
+                placeholder="AIzaSy..."
+              />
+              
+              <div style={{ marginTop: '15px', backgroundColor: '#f8fafc', padding: '15px', borderRadius: '8px', border: '1px solid #e2e8f0', color: '#334155' }}>
+                <h3 style={{ marginTop: 0, fontSize: '1rem', marginBottom: '10px' }}>How to get your free API key:</h3>
+                <ol style={{ margin: 0, paddingLeft: '20px', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                  <li>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" style={{ color: '#2563eb' }}>Google AI Studio</a>.</li>
+                  <li>Sign in with your Google account.</li>
+                  <li>Click on the <strong>"Create API key"</strong> button.</li>
+                  <li>Select an existing project or click <strong>"Create API key in a new project"</strong>.</li>
+                  <li>Copy the long API key (starts with AIza...) and paste it in the box above.</li>
+                </ol>
+                <p style={{ margin: '15px 0 0 0', fontSize: '0.85rem', color: '#64748b' }}>
+                  <strong>Privacy Note:</strong> Your key is securely stored locally on this device. It is never sent to any server other than directly to Google's official AI endpoint.
+                </p>
+              </div>
+            </div>
+            
+            <p style={{ marginTop: '10px', fontSize: '0.9em', color: '#555' }}>
+              <strong>Notice:</strong> Settings are saved automatically as you type. You can leave this page once you paste your key.
+            </p>
           </div>
         )}
       </main>
