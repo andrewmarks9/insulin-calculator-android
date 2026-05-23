@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { saveHistoryItem, getHistory, clearHistory, saveSettings, getSettings } from './storage';
+import { saveHistoryItem, getHistory, clearHistory, saveSettings, getSettings, enforceHistoryLimit } from './storage';
 
 // Mock localStorage
 const localStorageMock = (() => {
@@ -84,6 +84,38 @@ describe('storage', () => {
       
       const history = getHistory();
       expect(history.length).toBeLessThanOrEqual(1000);
+    });
+
+    it('uses configured historyLimit from settings', () => {
+      saveSettings({ historyLimit: 25 });
+
+      for (let i = 0; i < 50; i++) {
+        saveHistoryItem({ totalDose: i });
+      }
+
+      const history = getHistory();
+      expect(history).toHaveLength(25);
+    });
+  });
+
+  describe('enforceHistoryLimit', () => {
+    it('trims existing history to provided limit', () => {
+      for (let i = 0; i < 20; i++) {
+        saveHistoryItem({ totalDose: i });
+      }
+
+      const trimmed = enforceHistoryLimit(12);
+      expect(trimmed).toHaveLength(12);
+      expect(getHistory()).toHaveLength(12);
+    });
+
+    it('clamps invalid low limit to minimum', () => {
+      for (let i = 0; i < 30; i++) {
+        saveHistoryItem({ totalDose: i });
+      }
+
+      const trimmed = enforceHistoryLimit(0);
+      expect(trimmed).toHaveLength(10);
     });
   });
 

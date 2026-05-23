@@ -1,16 +1,32 @@
 const HISTORY_KEY = 'insulin_calc_history';
-const MAX_HISTORY_ITEMS = 1000; // Prevent unlimited growth
+const DEFAULT_MAX_HISTORY_ITEMS = 1000; // Prevent unlimited growth
+const MIN_HISTORY_ITEMS = 10;
+const MAX_HISTORY_ITEMS = 5000;
+
+function normalizeHistoryLimit(limit) {
+    const parsed = Number.parseInt(limit, 10);
+    if (Number.isNaN(parsed)) {
+        return DEFAULT_MAX_HISTORY_ITEMS;
+    }
+    return Math.min(MAX_HISTORY_ITEMS, Math.max(MIN_HISTORY_ITEMS, parsed));
+}
+
+function getConfiguredHistoryLimit() {
+    const settings = getSettings();
+    return normalizeHistoryLimit(settings?.historyLimit);
+}
 
 export function saveHistoryItem(item) {
     try {
         const history = getHistory();
+        const maxHistoryItems = getConfiguredHistoryLimit();
         const newItem = {
             id: Date.now(),
             timestamp: new Date().toISOString(),
             ...item
         };
         // Limit history size to prevent storage issues
-        const updatedHistory = [newItem, ...history].slice(0, MAX_HISTORY_ITEMS);
+        const updatedHistory = [newItem, ...history].slice(0, maxHistoryItems);
         localStorage.setItem(HISTORY_KEY, JSON.stringify(updatedHistory));
         return updatedHistory;
     } catch (error) {
@@ -19,7 +35,7 @@ export function saveHistoryItem(item) {
         if (error.name === 'QuotaExceededError') {
             try {
                 const history = getHistory();
-                const reducedHistory = history.slice(0, Math.floor(MAX_HISTORY_ITEMS / 2));
+                const reducedHistory = history.slice(0, Math.floor(getConfiguredHistoryLimit() / 2));
                 localStorage.setItem(HISTORY_KEY, JSON.stringify(reducedHistory));
                 throw new Error('Storage quota exceeded. Older history items were removed.');
             } catch {
@@ -70,3 +86,20 @@ export function getSettings() {
         return null;
     }
 }
+
+export function enforceHistoryLimit(limit) {
+    try {
+        const history = getHistory();
+        const maxHistoryItems = normalizeHistoryLimit(limit);
+        const trimmedHistory = history.slice(0, maxHistoryItems);
+        if (trimmedHistory.length !== history.length) {
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(trimmedHistory));
+        }
+        return trimmedHistory;
+    } catch (error) {
+        console.error('Error enforcing history limit:', error);
+        return getHistory();
+    }
+}
+
+export { DEFAULT_MAX_HISTORY_ITEMS, MIN_HISTORY_ITEMS, MAX_HISTORY_ITEMS };
