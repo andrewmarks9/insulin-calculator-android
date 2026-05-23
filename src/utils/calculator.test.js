@@ -117,6 +117,23 @@ describe('calculateDose', () => {
     expect(result).toBeDefined();
     expect(result.totalDose).toBeGreaterThan(0);
   });
+
+  it('rounds returned doses to one decimal for consistent persistence', () => {
+    const result = calculateDose({
+      currentBG: 183,
+      targetBG: 100,
+      correctionFactor: 70,
+      carbs: 35,
+      carbRatio: 9,
+      unit: UNITS.MGDL
+    });
+
+    expect(result).toEqual({
+      correctionDose: 1.2,
+      carbDose: 3.9,
+      totalDose: 5.1
+    });
+  });
 });
 
 describe('formatNumber', () => {

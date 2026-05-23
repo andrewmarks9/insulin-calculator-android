@@ -54,14 +54,18 @@ export function calculateDose({
   // Carbs / Ratio
   let carbDose = c / ratio;
 
-  // Total
-  let total = Math.max(0, correctionDose) + Math.max(0, carbDose);
+  const clampedCorrectionDose = Math.max(0, correctionDose);
+  const clampedCarbDose = Math.max(0, carbDose);
 
-  // Rounding to 1 decimal place (or 0.5 steps depending on pump/pen, standard is usually 1 decimal for apps)
+  // Round once at calculation time so UI, history, and export values stay aligned.
+  const roundedCorrectionDose = formatNumber(clampedCorrectionDose);
+  const roundedCarbDose = formatNumber(clampedCarbDose);
+  const roundedTotalDose = formatNumber(roundedCorrectionDose + roundedCarbDose);
+
   return {
-    correctionDose: Math.max(0, correctionDose), // Usually don't give negative correction unless specified
-    carbDose: Math.max(0, carbDose),
-    totalDose: Math.max(0, total)
+    correctionDose: roundedCorrectionDose,
+    carbDose: roundedCarbDose,
+    totalDose: roundedTotalDose
   };
 }
 

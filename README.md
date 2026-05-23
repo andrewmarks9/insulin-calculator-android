@@ -335,7 +335,11 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.8 (Current)
+### v0.4.9 (Current)
+- Dose values now rounded at calculation time so history, PDF, and display are always consistent
+- Extracted `CalculatorTab`, `HistoryTab`, `SettingsTab` components and `useSettings` / `useHistory` / `useExportStatus` hooks; `App.jsx` reduced from ~545 to ~306 lines
+
+### v0.4.8
 - Converted blood glucose and sensitivity values when switching units between mg/dL and mmol/L
 - Updated all tracked Markdown docs for v0.4.8 release consistency
 

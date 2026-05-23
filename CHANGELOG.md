@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No changes yet.
 
+## [0.4.9] - 2026-05-23
+
+### Fixed
+- `calculateDose` now returns doses already rounded to 1 decimal place so stored history and PDF exports match the on-screen display (removed double-formatting inconsistency)
+
+### Refactored
+- Extracted `CalculatorTab`, `HistoryTab`, and `SettingsTab` presentational components out of `App.jsx`
+- Extracted `useSettings`, `useHistory`, and `useExportStatus` custom hooks; `App.jsx` reduced from ~545 to ~306 lines
+- `useExportStatus` centralises the repeated `setTimeout(() => setExportStatus(null), ms)` pattern
+
 ## [0.4.8] - 2026-05-23
 
 ### Fixed

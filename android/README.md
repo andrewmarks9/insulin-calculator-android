@@ -362,7 +362,11 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.8 (Current)
+### v0.4.9 (Current)
+- Dose values rounded at calculation time so history, PDF, and display are always consistent
+- `App.jsx` refactored into `CalculatorTab`, `HistoryTab`, `SettingsTab` components and `useSettings` / `useHistory` / `useExportStatus` hooks
+
+### v0.4.8
 - Converted current BG, target BG, and sensitivity values when switching units
 - Updated markdown docs for v0.4.8 release consistency
 
