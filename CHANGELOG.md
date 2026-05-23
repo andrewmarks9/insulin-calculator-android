@@ -7,7 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-No changes yet.
+### Added
+- Focused unit tests for PDF export data-shaping helpers
+- Fallback unit tests for PDF save behavior (Documents to Cache)
+
+### Changed
+- Refactored PDF export flow into modular utility pipeline functions:
+  - validateExportInput
+  - buildExportDataset
+  - renderChartsToImages
+  - buildPdfDocument
+  - savePdfToFilesystem
+  - sharePdf
 
 ## [0.4.3] - 2026-05-23
 

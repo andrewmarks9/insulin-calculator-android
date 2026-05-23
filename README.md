@@ -335,6 +335,17 @@ For issues, questions, or suggestions:
 
 ## Version History
 
+### v0.4.4 (Unreleased)
+- Refactored PDF export into a dedicated pipeline module with clear stages:
+   - validateExportInput
+   - buildExportDataset
+   - renderChartsToImages
+   - buildPdfDocument
+   - savePdfToFilesystem
+   - sharePdf
+- Added focused unit tests for PDF export data-shaping and validation helpers
+- Added fallback tests for PDF file saving (Documents to Cache)
+
 ### v0.4.3 (Current)
 - Switched history storage limits from entry count to gigabyte-based limits
 - Added a slider control for history storage limit in Settings
