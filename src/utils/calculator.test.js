@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { calculateDose, formatNumber, UNITS, CONVERSION_FACTOR } from './calculator';
+import { calculateDose, formatNumber, UNITS, CONVERSION_FACTOR, convertUnitValue } from './calculator';
 
 describe('calculateDose', () => {
   it('calculates basic insulin dose correctly', () => {
@@ -143,5 +143,22 @@ describe('CONSTANTS', () => {
 
   it('exports correct conversion factor', () => {
     expect(CONVERSION_FACTOR).toBe(18.0182);
+  });
+});
+
+describe('convertUnitValue', () => {
+  it('converts mg/dL to mmol/L', () => {
+    expect(convertUnitValue('180', UNITS.MGDL, UNITS.MMOL, 2)).toBe('9.99');
+    expect(convertUnitValue('50', UNITS.MGDL, UNITS.MMOL, 3)).toBe('2.775');
+  });
+
+  it('converts mmol/L to mg/dL', () => {
+    expect(convertUnitValue('10', UNITS.MMOL, UNITS.MGDL, 2)).toBe('180.18');
+    expect(convertUnitValue('2.775', UNITS.MMOL, UNITS.MGDL, 1)).toBe('50');
+  });
+
+  it('leaves invalid or empty values unchanged', () => {
+    expect(convertUnitValue('', UNITS.MGDL, UNITS.MMOL)).toBe('');
+    expect(convertUnitValue('abc', UNITS.MGDL, UNITS.MMOL)).toBe('abc');
   });
 });

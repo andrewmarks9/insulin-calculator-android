@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { calculateDose, formatNumber, UNITS } from './utils/calculator';
+import { calculateDose, formatNumber, UNITS, convertUnitValue } from './utils/calculator';
 import { saveHistoryItem, getHistory, clearHistory, saveSettings, getSettings, enforceHistoryLimit, DEFAULT_HISTORY_LIMIT_GB, MIN_HISTORY_LIMIT_GB, MAX_HISTORY_LIMIT_GB } from './utils/storage';
 import { ensureStoragePermission, checkStoragePermission, getPermissionErrorMessage, PermissionState, isNativePlatform } from './utils/permissions';
 import { PrivacyPolicy } from './PrivacyPolicy';
@@ -116,6 +116,21 @@ function App() {
   const getInvalidCalculateFields = () => {
     const requiredNumericFields = ['currentBG', 'targetBG', 'carbs', 'carbRatio', 'correctionFactor'];
     return requiredNumericFields.filter((field) => Number.isNaN(parseFloat(inputs[field])));
+  };
+
+  const handleUnitChange = (nextUnit) => {
+    if (nextUnit === unit) {
+      return;
+    }
+
+    setInputs(prev => ({
+      ...prev,
+      currentBG: convertUnitValue(prev.currentBG, unit, nextUnit, 2),
+      targetBG: convertUnitValue(prev.targetBG, unit, nextUnit, 2),
+      correctionFactor: convertUnitValue(prev.correctionFactor, unit, nextUnit, 3)
+    }));
+
+    setUnit(nextUnit);
   };
 
   const triggerInvalidShake = () => {
@@ -273,11 +288,11 @@ function App() {
         <div className="unit-toggle">
           <button
             className={unit === UNITS.MGDL ? 'active' : ''}
-            onClick={() => setUnit(UNITS.MGDL)}>mg/dL
+            onClick={() => handleUnitChange(UNITS.MGDL)}>mg/dL
           </button>
           <button
             className={unit === UNITS.MMOL ? 'active' : ''}
-            onClick={() => setUnit(UNITS.MMOL)}>mmol/L
+            onClick={() => handleUnitChange(UNITS.MMOL)}>mmol/L
           </button>
         </div>
       </header>

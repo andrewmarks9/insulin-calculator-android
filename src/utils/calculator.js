@@ -5,6 +5,25 @@ export const UNITS = {
 
 export const CONVERSION_FACTOR = 18.0182; // mmol/L * 18.0182 = mg/dL
 
+export function convertUnitValue(value, fromUnit, toUnit, precision = 2) {
+  if (value === '' || value === null || value === undefined || fromUnit === toUnit) {
+    return value;
+  }
+
+  const numericValue = parseFloat(value);
+  if (Number.isNaN(numericValue)) {
+    return value;
+  }
+
+  const convertedValue = fromUnit === UNITS.MGDL && toUnit === UNITS.MMOL
+    ? numericValue / CONVERSION_FACTOR
+    : fromUnit === UNITS.MMOL && toUnit === UNITS.MGDL
+      ? numericValue * CONVERSION_FACTOR
+      : numericValue;
+
+  return Number.parseFloat(convertedValue.toFixed(precision)).toString();
+}
+
 export function calculateDose({
   currentBG,
   targetBG,
