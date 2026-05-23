@@ -4,6 +4,8 @@ description: Guide to publishing the Android App to the Play Store
 
 # Publishing to Google Play Store
 
+> Last updated for release `v0.4.5`.
+
 ## 1. Prepare Assets
 Ensure you have high-resolution icons and splash screens.
 We can use `@capacitor/assets` to generate these.
@@ -15,6 +17,12 @@ We can use `@capacitor/assets` to generate these.
 Update your version numbers in `android/app/build.gradle`:
 - `versionCode`: Integer (e.g., 2, 3). Must increase with every release.
 - `versionName`: String (e.g., "1.0.1"). Visible to users.
+
+Repository release trigger example:
+```bash
+git tag v0.4.5
+git push origin v0.4.5
+```
 
 ## 3. Signing the App
 You need a release Keystore to sign your app.

@@ -2,6 +2,8 @@
 
 This guide covers Git workflows, building locally, and understanding key features of the Insulin Calculator app.
 
+> Last updated for release `v0.4.5`.
+
 ## Git Workflow
 
 ### First-Time Setup
@@ -33,8 +35,8 @@ git commit -m "Clear message describing your changes"
 git push
 
 # Create a release tag
-git tag v0.1.0
-git push origin v0.1.0
+git tag v0.4.5
+git push origin v0.4.5
 ```
 
 ### Useful Commands
@@ -237,8 +239,8 @@ For automatic APK building and GitHub releases, see [AUTOMATE_RELEASES.md](AUTOM
 
 **Quick version:**
 ```bash
-git tag v0.1.0
-git push origin v0.1.0
+git tag v0.4.5
+git push origin v0.4.5
 # GitHub Actions builds APK automatically
 ```
 
@@ -251,6 +253,7 @@ src/
   main.jsx             # React entry point
   utils/
     calculator.js      # Dose calculation logic
+    pdfExport.js       # PDF export pipeline (dataset/charts/document/save/share)
     storage.js         # LocalStorage wrapper
     permissions.js     # Android permission handling
 android/               # Capacitor Android project

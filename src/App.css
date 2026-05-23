@@ -138,6 +138,31 @@ main {
     box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
 }
 
+.input-group input.input-error {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+.input-group input.input-shake {
+    animation: inputShake 0.3s ease-in-out;
+}
+
+@keyframes inputShake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-4px); }
+    40% { transform: translateX(4px); }
+    60% { transform: translateX(-3px); }
+    80% { transform: translateX(3px); }
+    100% { transform: translateX(0); }
+}
+
+.validation-error {
+    margin: -0.5rem 0 0.75rem;
+    color: var(--danger);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
 .settings-row {
     display: grid;
     grid-template-columns: 1fr 1fr;

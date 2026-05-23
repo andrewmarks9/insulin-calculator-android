@@ -274,7 +274,7 @@ Users can configure:
 - Target blood glucose
 - Carb ratio
 - Correction factor (ISF)
-- History storage limit (10 to 5,000 entries)
+- History storage limit slider (0.001 to 1 GB)
 
 Settings are automatically saved to LocalStorage.
 
@@ -362,7 +362,15 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.2 (Current)
+### v0.4.5 (Current)
+- Added inline validation feedback and invalid-field shake animation on Calculate
+- Updated project markdown documentation for release consistency
+
+### v0.4.4
+- Refactored PDF export into modular pipeline functions in `src/utils/pdfExport.js`
+- Added focused tests for PDF export data shaping and save fallback behavior
+
+### v0.4.2
 - Added configurable history storage limit setting (10 to 5,000 entries)
 - Updated release documentation and changelog references
 

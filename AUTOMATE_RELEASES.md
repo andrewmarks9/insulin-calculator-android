@@ -1,5 +1,7 @@
 # Automated APK Release Guide
 
+> Last updated for release `v0.4.5`.
+
 ## How It Works
 
 The GitHub Actions workflow automatically builds and releases your APK whenever you push a git tag starting with `v` (e.g., `v1.0.0`, `v0.1.0`).
@@ -13,8 +15,8 @@ git add .
 git commit -m "Your commit message"
 
 # Create and push a version tag
-git tag v0.1.0
-git push origin v0.1.0
+git tag v0.4.5
+git push origin v0.4.5
 ```
 
 ### 2. Monitor the Build
@@ -34,6 +36,9 @@ Use semantic versioning:
 git tag v1.0.0    # Major release
 git tag v0.1.0    # Minor release
 git tag v0.0.1    # Patch release
+
+# Current example
+git tag v0.4.5
 ```
 
 ## What Happens Automatically

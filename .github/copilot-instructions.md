@@ -8,14 +8,15 @@ React + Vite + Capacitor medical app for calculating insulin doses. All data sto
 ### Key Components
 - **`src/App.jsx`**: Single-page app with tabbed interface (Calculate/History)
 - **`src/utils/calculator.js`**: Pure calculation logic, supports mg/dL and mmol/L units
-- **`src/utils/storage.js`**: LocalStorage wrapper with quota management (max 1,000 history items)
+- **`src/utils/storage.js`**: LocalStorage wrapper with GB-based history limits and trimming
+- **`src/utils/pdfExport.js`**: PDF export pipeline utilities (validate/dataset/charts/document/save/share)
 - **`src/utils/permissions.js`**: Capacitor filesystem permissions handling for Android
 - **`android/`**: Capacitor-generated Android project
 
 ### Data Flow
 1. User inputs → `calculateDose()` → Result displayed + auto-saved to history
 2. History operations go through `storage.js` which handles quota exceeded errors gracefully
-3. PDF export: Check permissions → Generate PDF → Write to filesystem → Share dialog
+3. PDF export pipeline: Validate input → Build dataset → Render charts → Build PDF → Save file → Share
 
 ## Critical Conventions
 
@@ -37,6 +38,8 @@ try {
 }
 ```
 History auto-limits to 1,000 items. Never remove this limit without quota handling.
+
+Current behavior uses a configurable GB-based limit with automatic oldest-entry trimming.
 
 ### Permission Handling (Android)
 Before any file operation, call `ensureStoragePermission(true)`:

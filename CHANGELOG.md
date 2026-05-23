@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+No changes yet.
+
+## [0.4.5] - 2026-05-23
+
+### Added
+- Inline calculate validation feedback with invalid-field highlighting and shake animation
+
+### Changed
+- Updated all tracked Markdown docs for v0.4.5 release consistency
+
+## [0.4.4] - 2026-05-23
+
 ### Added
 - Focused unit tests for PDF export data-shaping helpers
 - Fallback unit tests for PDF save behavior (Documents to Cache)

@@ -335,7 +335,11 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.4 (Unreleased)
+### v0.4.5 (Current)
+- Added inline validation message and invalid-field shake animation for Calculate action
+- Updated all tracked Markdown documentation for release consistency
+
+### v0.4.4
 - Refactored PDF export into a dedicated pipeline module with clear stages:
    - validateExportInput
    - buildExportDataset

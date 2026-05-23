@@ -28,6 +28,9 @@ function App() {
   const [isExporting, setIsExporting] = useState(false);
   const [isAnalyzingImage, setIsAnalyzingImage] = useState(false);
   const [exportStatus, setExportStatus] = useState(null); // { type: 'success' | 'error', message: string }
+  const [calculateError, setCalculateError] = useState('');
+  const [invalidCalculateFields, setInvalidCalculateFields] = useState([]);
+  const [shakeInvalidFields, setShakeInvalidFields] = useState(false);
   const [permissionStatus, setPermissionStatus] = useState(null); // Permission state
   const [dateRange, setDateRange] = useState(30); // Days to show: 3, 7, 14, 30, 90
 
@@ -102,6 +105,25 @@ function App() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInputs(prev => ({ ...prev, [name]: value }));
+    if (calculateError) {
+      setCalculateError('');
+    }
+    if (invalidCalculateFields.includes(name)) {
+      setInvalidCalculateFields(prev => prev.filter(field => field !== name));
+    }
+  };
+
+  const getInvalidCalculateFields = () => {
+    const requiredNumericFields = ['currentBG', 'targetBG', 'carbs', 'carbRatio', 'correctionFactor'];
+    return requiredNumericFields.filter((field) => Number.isNaN(parseFloat(inputs[field])));
+  };
+
+  const triggerInvalidShake = () => {
+    setShakeInvalidFields(false);
+    requestAnimationFrame(() => {
+      setShakeInvalidFields(true);
+      setTimeout(() => setShakeInvalidFields(false), 350);
+    });
   };
 
   const handleScanMeal = async () => {
@@ -136,12 +158,22 @@ function App() {
 
   const handleCalculate = () => {
     try {
+      const invalidFields = getInvalidCalculateFields();
+      if (invalidFields.length > 0) {
+        setCalculateError('Enter all numeric fields before calculating.');
+        setInvalidCalculateFields(invalidFields);
+        triggerInvalidShake();
+        return;
+      }
+
       const doseResult = calculateDose({
         ...inputs,
         unit
       });
 
       if (doseResult) {
+        setCalculateError('');
+        setInvalidCalculateFields([]);
         setResult(doseResult);
         // Save to history automatically
         const newItem = saveHistoryItem({
@@ -149,6 +181,10 @@ function App() {
           result: doseResult
         });
         setHistory(newItem);
+      } else {
+        setCalculateError('Enter all numeric fields before calculating.');
+        setInvalidCalculateFields(getInvalidCalculateFields());
+        triggerInvalidShake();
       }
     } catch (error) {
       console.error('Error calculating or saving:', error);
@@ -273,6 +309,7 @@ function App() {
                 value={inputs.currentBG}
                 onChange={handleInputChange}
                 placeholder="e.g. 150"
+                className={invalidCalculateFields.includes('currentBG') ? `input-error ${shakeInvalidFields ? 'input-shake' : ''}` : ''}
               />
             </div>
             <div className="input-group">
@@ -284,6 +321,7 @@ function App() {
                 value={inputs.targetBG}
                 onChange={handleInputChange}
                 placeholder="e.g. 100"
+                className={invalidCalculateFields.includes('targetBG') ? `input-error ${shakeInvalidFields ? 'input-shake' : ''}` : ''}
               />
             </div>
             <div className="input-group">
@@ -296,6 +334,7 @@ function App() {
                   value={inputs.carbs}
                   onChange={handleInputChange}
                   placeholder="e.g. 60"
+                  className={invalidCalculateFields.includes('carbs') ? `input-error ${shakeInvalidFields ? 'input-shake' : ''}` : ''}
                   style={{ flex: 1, margin: 0 }}
                 />
                 <button 
@@ -343,6 +382,7 @@ function App() {
                   name="carbRatio"
                   value={inputs.carbRatio}
                   onChange={handleInputChange}
+                  className={invalidCalculateFields.includes('carbRatio') ? `input-error ${shakeInvalidFields ? 'input-shake' : ''}` : ''}
                 />
               </div>
               <div className="input-group">
@@ -353,9 +393,12 @@ function App() {
                   name="correctionFactor"
                   value={inputs.correctionFactor}
                   onChange={handleInputChange}
+                  className={invalidCalculateFields.includes('correctionFactor') ? `input-error ${shakeInvalidFields ? 'input-shake' : ''}` : ''}
                 />
               </div>
             </div>
+
+            {calculateError && <p className="validation-error">{calculateError}</p>}
 
             <button className="primary-btn" onClick={handleCalculate}>Calculate Dose</button>
 
