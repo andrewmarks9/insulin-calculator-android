@@ -335,7 +335,11 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.5 (Current)
+### v0.4.6 (Current)
+- Added explicit zero-denominator protection in dose calculation to prevent Infinity/NaN results
+- Updated all tracked Markdown docs for v0.4.6 release consistency
+
+### v0.4.5
 - Added inline validation message and invalid-field shake animation for Calculate action
 - Updated all tracked Markdown documentation for release consistency
 

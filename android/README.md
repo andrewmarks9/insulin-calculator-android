@@ -362,7 +362,11 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.5 (Current)
+### v0.4.6 (Current)
+- Added zero-denominator guard in dose calculations (`correctionFactor` and `carbRatio`)
+- Updated markdown docs for v0.4.6 release consistency
+
+### v0.4.5
 - Added inline validation feedback and invalid-field shake animation on Calculate
 - Updated project markdown documentation for release consistency
 

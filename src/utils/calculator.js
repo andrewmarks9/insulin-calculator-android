@@ -22,6 +22,11 @@ export function calculateDose({
     return null;
   }
 
+  // Guard against invalid denominators that would produce Infinity/NaN.
+  if (correction === 0 || ratio === 0) {
+    return null;
+  }
+
   // Calculate Correction Dose
   // (Current - Target) / CorrectionFactor
   let correctionDose = (current - target) / correction;

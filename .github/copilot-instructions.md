@@ -37,9 +37,9 @@ try {
   }
 }
 ```
-History auto-limits to 1,000 items. Never remove this limit without quota handling.
+Current behavior uses a configurable GB-based limit with automatic oldest-entry trimming and quota handling.
 
-Current behavior uses a configurable GB-based limit with automatic oldest-entry trimming.
+Dose calculation now explicitly rejects zero denominators (`correctionFactor`, `carbRatio`) and returns `null` for invalid inputs.
 
 ### Permission Handling (Android)
 Before any file operation, call `ensureStoragePermission(true)`:

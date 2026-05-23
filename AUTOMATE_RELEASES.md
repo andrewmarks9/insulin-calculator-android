@@ -1,6 +1,6 @@
 # Automated APK Release Guide
 
-> Last updated for release `v0.4.5`.
+> Last updated for release `v0.4.6`.
 
 ## How It Works
 
@@ -15,8 +15,8 @@ git add .
 git commit -m "Your commit message"
 
 # Create and push a version tag
-git tag v0.4.5
-git push origin v0.4.5
+git tag v0.4.6
+git push origin v0.4.6
 ```
 
 ### 2. Monitor the Build
@@ -38,7 +38,7 @@ git tag v0.1.0    # Minor release
 git tag v0.0.1    # Patch release
 
 # Current example
-git tag v0.4.5
+git tag v0.4.6
 ```
 
 ## What Happens Automatically

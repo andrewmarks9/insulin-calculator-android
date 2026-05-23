@@ -32,6 +32,32 @@ describe('calculateDose', () => {
     expect(result).toBeNull();
   });
 
+  it('returns null when correctionFactor is zero', () => {
+    const result = calculateDose({
+      currentBG: 180,
+      targetBG: 100,
+      correctionFactor: 0,
+      carbs: 60,
+      carbRatio: 10,
+      unit: UNITS.MGDL
+    });
+
+    expect(result).toBeNull();
+  });
+
+  it('returns null when carbRatio is zero', () => {
+    const result = calculateDose({
+      currentBG: 180,
+      targetBG: 100,
+      correctionFactor: 50,
+      carbs: 60,
+      carbRatio: 0,
+      unit: UNITS.MGDL
+    });
+
+    expect(result).toBeNull();
+  });
+
   it('returns 0 for negative correction dose', () => {
     const result = calculateDose({
       currentBG: 80,

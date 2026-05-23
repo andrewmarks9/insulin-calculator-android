@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No changes yet.
 
+## [0.4.6] - 2026-05-23
+
+### Fixed
+- Rejected zero denominators in insulin calculation (`correctionFactor` and `carbRatio`) to prevent Infinity/NaN dose results
+
+### Changed
+- Updated all tracked Markdown docs for v0.4.6 release consistency and current behavior notes
+
 ## [0.4.5] - 2026-05-23
 
 ### Added
