@@ -274,6 +274,7 @@ Users can configure:
 - Target blood glucose
 - Carb ratio
 - Correction factor (ISF)
+- History storage limit (10 to 5,000 entries)
 
 Settings are automatically saved to LocalStorage.
 
@@ -283,7 +284,7 @@ Settings are automatically saved to LocalStorage.
 - ✅ PDF exports now save to Documents directory (permanent storage)
 - ✅ Better filename format with readable dates
 - ✅ Loading states and success/error notifications
-- ✅ LocalStorage quota management (max 1,000 history items)
+- ✅ Configurable storage limit (10 to 5,000 history items)
 - ✅ Comprehensive error handling with user-friendly messages
 - ✅ Confirmation dialogs for destructive actions
 
@@ -361,7 +362,11 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v1.0.0 (Current)
+### v0.4.2 (Current)
+- Added configurable history storage limit setting (10 to 5,000 entries)
+- Updated release documentation and changelog references
+
+### v1.0.0
 - Initial release
 - Insulin dose calculator
 - History tracking with PDF export

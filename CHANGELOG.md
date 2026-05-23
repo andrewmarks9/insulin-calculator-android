@@ -7,15 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+No changes yet.
+
+## [0.4.2] - 2026-05-23
+
 ### Added
-- GitHub Actions badges to README showing build and test status
+- Configurable history storage limit setting (10 to 5,000 entries)
 
 ### Changed
-- Consolidated documentation from 7 files into 3 focused guides
-- Updated README with APK download instructions
-
-### Removed
-- Redundant documentation files (GIT_GUIDE.md, GIT_SETUP_SUMMARY.md, etc.)
+- Updated root and Android README files with release and storage-limit documentation
+- History retention now follows the user-defined storage limit instead of a fixed cap
 
 ## [0.1.0] - 2026-02-07
 
