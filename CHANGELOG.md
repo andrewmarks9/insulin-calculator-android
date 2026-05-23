@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No changes yet.
 
+## [0.4.8] - 2026-05-23
+
+### Fixed
+- Converted current BG, target BG, and sensitivity values when toggling between mg/dL and mmol/L
+
+### Changed
+- Updated all tracked Markdown docs for v0.4.8 release consistency and current behavior notes
+
 ## [0.4.7] - 2026-05-23
 
 ### Fixed

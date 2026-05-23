@@ -335,7 +335,11 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.7 (Current)
+### v0.4.8 (Current)
+- Converted blood glucose and sensitivity values when switching units between mg/dL and mmol/L
+- Updated all tracked Markdown docs for v0.4.8 release consistency
+
+### v0.4.7
 - Kept total dose aligned with clamped component doses so the breakdown matches the total
 - Updated all tracked Markdown docs for v0.4.7 release consistency
 
