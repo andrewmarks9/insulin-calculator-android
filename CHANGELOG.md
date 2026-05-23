@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No changes yet.
 
+## [0.4.3] - 2026-05-23
+
+### Added
+- Settings slider for history storage limit in gigabytes
+
+### Changed
+- Switched history retention from entry-count limits to gigabyte-based storage limits
+- History trimming now enforces serialized storage size caps
+
 ## [0.4.2] - 2026-05-23
 
 ### Added

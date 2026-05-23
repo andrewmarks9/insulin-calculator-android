@@ -5,7 +5,7 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
 import { Chart } from 'chart.js/auto';
 import { calculateDose, formatNumber, UNITS } from './utils/calculator';
-import { saveHistoryItem, getHistory, clearHistory, saveSettings, getSettings, enforceHistoryLimit, DEFAULT_MAX_HISTORY_ITEMS, MIN_HISTORY_ITEMS, MAX_HISTORY_ITEMS } from './utils/storage';
+import { saveHistoryItem, getHistory, clearHistory, saveSettings, getSettings, enforceHistoryLimit, DEFAULT_HISTORY_LIMIT_GB, MIN_HISTORY_LIMIT_GB, MAX_HISTORY_LIMIT_GB } from './utils/storage';
 import { ensureStoragePermission, checkStoragePermission, getPermissionErrorMessage, PermissionState, isNativePlatform } from './utils/permissions';
 import { PrivacyPolicy } from './PrivacyPolicy';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
@@ -23,7 +23,7 @@ function App() {
     carbRatio: '',
     correctionFactor: '',
     geminiApiKey: '',
-    historyLimit: DEFAULT_MAX_HISTORY_ITEMS.toString()
+    historyLimitGb: DEFAULT_HISTORY_LIMIT_GB.toString()
   });
   const [result, setResult] = useState(null);
   const [history, setHistory] = useState([]);
@@ -46,7 +46,7 @@ function App() {
         carbRatio: savedSettings.carbRatio || '',
         correctionFactor: savedSettings.correctionFactor || '',
         geminiApiKey: savedSettings.geminiApiKey || '',
-        historyLimit: (savedSettings.historyLimit || DEFAULT_MAX_HISTORY_ITEMS).toString()
+        historyLimitGb: (savedSettings.historyLimitGb || DEFAULT_HISTORY_LIMIT_GB).toString()
       }));
     }
     
@@ -94,14 +94,14 @@ function App() {
       carbRatio: inputs.carbRatio,
       correctionFactor: inputs.correctionFactor,
       geminiApiKey: inputs.geminiApiKey,
-      historyLimit: inputs.historyLimit
+      historyLimitGb: inputs.historyLimitGb
     });
-  }, [unit, inputs.targetBG, inputs.carbRatio, inputs.correctionFactor, inputs.geminiApiKey, inputs.historyLimit]);
+  }, [unit, inputs.targetBG, inputs.carbRatio, inputs.correctionFactor, inputs.geminiApiKey, inputs.historyLimitGb]);
 
   useEffect(() => {
-    const updatedHistory = enforceHistoryLimit(inputs.historyLimit);
+    const updatedHistory = enforceHistoryLimit(inputs.historyLimitGb);
     setHistory(updatedHistory);
-  }, [inputs.historyLimit]);
+  }, [inputs.historyLimitGb]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -780,20 +780,21 @@ function App() {
           <div className="settings-view" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '15px' }}>
             <h2>App Settings</h2>
             <div className="input-group">
-              <label>History Storage Limit (entries)</label>
+              <label>History Storage Limit (GB)</label>
               <input
-                type="number"
-                inputMode="numeric"
-                min={MIN_HISTORY_ITEMS}
-                max={MAX_HISTORY_ITEMS}
-                step="1"
-                name="historyLimit"
-                value={inputs.historyLimit}
+                type="range"
+                min={MIN_HISTORY_LIMIT_GB}
+                max={MAX_HISTORY_LIMIT_GB}
+                step="0.001"
+                name="historyLimitGb"
+                value={inputs.historyLimitGb || DEFAULT_HISTORY_LIMIT_GB.toString()}
                 onChange={handleInputChange}
-                placeholder={DEFAULT_MAX_HISTORY_ITEMS.toString()}
               />
+              <p style={{ margin: '8px 0 0', fontSize: '0.9rem', color: '#334155', fontWeight: 600 }}>
+                Selected: {Number.parseFloat(inputs.historyLimitGb || DEFAULT_HISTORY_LIMIT_GB).toFixed(3)} GB
+              </p>
               <p style={{ margin: '8px 0 0', fontSize: '0.85rem', color: '#64748b' }}>
-                Keeps the most recent entries only. Allowed range: {MIN_HISTORY_ITEMS} to {MAX_HISTORY_ITEMS}.
+                Caps saved history size by storage usage. Allowed range: {MIN_HISTORY_LIMIT_GB} to {MAX_HISTORY_LIMIT_GB} GB.
               </p>
             </div>
 

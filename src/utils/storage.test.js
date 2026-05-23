@@ -76,46 +76,39 @@ describe('storage', () => {
       expect(result[1].totalDose).toBe(5);
     });
 
-    it('limits history to MAX_HISTORY_ITEMS', () => {
-      // Save 1001 items
-      for (let i = 0; i < 1001; i++) {
-        saveHistoryItem({ totalDose: i });
-      }
-      
-      const history = getHistory();
-      expect(history.length).toBeLessThanOrEqual(1000);
-    });
+    it('uses configured historyLimitGb from settings', () => {
+      saveSettings({ historyLimitGb: 0.001 });
 
-    it('uses configured historyLimit from settings', () => {
-      saveSettings({ historyLimit: 25 });
-
-      for (let i = 0; i < 50; i++) {
-        saveHistoryItem({ totalDose: i });
+      const largeText = 'x'.repeat(250000);
+      for (let i = 0; i < 10; i++) {
+        saveHistoryItem({ totalDose: i, notes: largeText });
       }
 
       const history = getHistory();
-      expect(history).toHaveLength(25);
+      expect(history.length).toBeLessThan(10);
     });
   });
 
   describe('enforceHistoryLimit', () => {
-    it('trims existing history to provided limit', () => {
-      for (let i = 0; i < 20; i++) {
-        saveHistoryItem({ totalDose: i });
+    it('trims existing history to provided GB limit', () => {
+      const largeText = 'x'.repeat(200000);
+      for (let i = 0; i < 8; i++) {
+        saveHistoryItem({ totalDose: i, notes: largeText });
       }
 
-      const trimmed = enforceHistoryLimit(12);
-      expect(trimmed).toHaveLength(12);
-      expect(getHistory()).toHaveLength(12);
+      const trimmed = enforceHistoryLimit(0.001);
+      expect(trimmed.length).toBeLessThan(8);
+      expect(getHistory().length).toBeLessThan(8);
     });
 
-    it('clamps invalid low limit to minimum', () => {
-      for (let i = 0; i < 30; i++) {
-        saveHistoryItem({ totalDose: i });
+    it('clamps invalid low GB limit to minimum', () => {
+      const largeText = 'x'.repeat(200000);
+      for (let i = 0; i < 8; i++) {
+        saveHistoryItem({ totalDose: i, notes: largeText });
       }
 
       const trimmed = enforceHistoryLimit(0);
-      expect(trimmed).toHaveLength(10);
+      expect(trimmed.length).toBeLessThan(8);
     });
   });
 

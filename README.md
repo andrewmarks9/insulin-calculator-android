@@ -230,7 +230,7 @@ Users can configure:
 - Target blood glucose
 - Carb ratio
 - Correction factor (ISF)
-- History storage limit (10 to 5,000 entries)
+- History storage limit slider (0.001 to 1 GB)
 - Gemini API Key (for AI tracking)
 
 Settings are automatically saved to LocalStorage.
@@ -256,7 +256,7 @@ This app includes modern improvements for reliability and user experience:
 - ✅ **PDF Export with Error Handling**: Professional PDF generation with recovery from failures
 - ✅ **Smart File Saving**: Saves to Documents with fallback to Cache directory
 - ✅ **Permissions Handling**: Automatically requests storage permissions on Android 13+
-- ✅ **Configurable Storage Limit**: Choose history retention between 10 and 5,000 entries
+- ✅ **Configurable Storage Limit**: Use a GB slider to cap history storage usage
 - ✅ **User-Friendly Error Messages**: Clear guidance when something goes wrong
 - ✅ **Confirmation Dialogs**: Prevents accidental data loss
 
@@ -335,7 +335,11 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.2 (Current)
+### v0.4.3 (Current)
+- Switched history storage limits from entry count to gigabyte-based limits
+- Added a slider control for history storage limit in Settings
+
+### v0.4.2
 - Added configurable history storage limit setting (10 to 5,000 entries)
 - Updated project documentation for release packaging workflow and storage behavior
 
