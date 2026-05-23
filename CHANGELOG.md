@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No changes yet.
 
+## [0.4.7] - 2026-05-23
+
+### Fixed
+- Kept total insulin dose aligned with clamped component doses to avoid breakdown mismatches
+
+### Changed
+- Updated all tracked Markdown docs for v0.4.7 release consistency and current behavior notes
+
 ## [0.4.6] - 2026-05-23
 
 ### Fixed

@@ -72,6 +72,23 @@ describe('calculateDose', () => {
     expect(result.totalDose).toBe(0);
   });
 
+  it('keeps totalDose aligned with clamped component doses', () => {
+    const result = calculateDose({
+      currentBG: 80,
+      targetBG: 100,
+      correctionFactor: 50,
+      carbs: 2,
+      carbRatio: 10,
+      unit: UNITS.MGDL
+    });
+
+    expect(result).toEqual({
+      correctionDose: 0,
+      carbDose: 0.2,
+      totalDose: 0.2
+    });
+  });
+
   it('handles zero carbs correctly', () => {
     const result = calculateDose({
       currentBG: 150,

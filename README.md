@@ -335,7 +335,11 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.6 (Current)
+### v0.4.7 (Current)
+- Kept total dose aligned with clamped component doses so the breakdown matches the total
+- Updated all tracked Markdown docs for v0.4.7 release consistency
+
+### v0.4.6
 - Added explicit zero-denominator protection in dose calculation to prevent Infinity/NaN results
 - Updated all tracked Markdown docs for v0.4.6 release consistency
 

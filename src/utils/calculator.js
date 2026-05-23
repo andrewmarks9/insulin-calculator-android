@@ -36,7 +36,7 @@ export function calculateDose({
   let carbDose = c / ratio;
 
   // Total
-  let total = correctionDose + carbDose;
+  let total = Math.max(0, correctionDose) + Math.max(0, carbDose);
 
   // Rounding to 1 decimal place (or 0.5 steps depending on pump/pen, standard is usually 1 decimal for apps)
   return {

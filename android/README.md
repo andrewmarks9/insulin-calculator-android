@@ -362,7 +362,11 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.6 (Current)
+### v0.4.7 (Current)
+- Kept total dose aligned with clamped component doses so the breakdown matches the total
+- Updated markdown docs for v0.4.7 release consistency
+
+### v0.4.6
 - Added zero-denominator guard in dose calculations (`correctionFactor` and `carbRatio`)
 - Updated markdown docs for v0.4.6 release consistency
 

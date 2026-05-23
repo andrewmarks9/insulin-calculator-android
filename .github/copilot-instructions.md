@@ -41,6 +41,8 @@ Current behavior uses a configurable GB-based limit with automatic oldest-entry 
 
 Dose calculation now explicitly rejects zero denominators (`correctionFactor`, `carbRatio`) and returns `null` for invalid inputs.
 
+`calculateDose()` keeps `totalDose` aligned with clamped component doses so the breakdown matches the total.
+
 ### Permission Handling (Android)
 Before any file operation, call `ensureStoragePermission(true)`:
 ```javascript
