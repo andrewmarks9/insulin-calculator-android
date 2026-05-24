@@ -9,7 +9,6 @@ A modern, user-friendly Android application for calculating insulin doses based 
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Android-green.svg)
-![Build Status](https://github.com/andrewmarks9/insulin-calculator-android/actions/workflows/build-release.yml/badge.svg)
 ![Tests](https://github.com/andrewmarks9/insulin-calculator-android/actions/workflows/test.yml/badge.svg)
 [![Latest Release](https://img.shields.io/github/v/release/andrewmarks9/insulin-calculator-android?label=Latest%20Release&color=blue)](https://github.com/andrewmarks9/insulin-calculator-android/releases)
 
