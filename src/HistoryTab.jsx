@@ -4,6 +4,7 @@ import { PermissionState, isNativePlatform } from './utils/permissions';
 
 export function HistoryTab({
   history,
+  filteredHistory,
   dateRange,
   onDateRangeChange,
   isExporting,
@@ -11,11 +12,8 @@ export function HistoryTab({
   permissionStatus,
   onExport,
   onClear,
-  onRequestPermission,
-  getFilteredHistory
+  onRequestPermission
 }) {
-  const filtered = getFilteredHistory();
-
   return (
     <div className="history-view">
       {isNativePlatform() && permissionStatus !== PermissionState.GRANTED && (
@@ -71,11 +69,11 @@ export function HistoryTab({
 
       {history.length === 0 ? (
         <p className="empty-history">No history yet.</p>
-      ) : filtered.length === 0 ? (
+      ) : filteredHistory.length === 0 ? (
         <p className="empty-history">No entries in the last {dateRange} days.</p>
       ) : (
         Object.entries(
-          filtered.reduce((groups, item) => {
+          filteredHistory.reduce((groups, item) => {
             const date = new Date(item.timestamp).toLocaleDateString(undefined, {
               weekday: 'long',
               year: 'numeric',

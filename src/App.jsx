@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { calculateDose, UNITS, convertUnitValue } from './utils/calculator';
 import { saveHistoryItem, clearHistory, enforceHistoryLimit } from './utils/storage';
 import { ensureStoragePermission, checkStoragePermission, getPermissionErrorMessage, PermissionState, isNativePlatform } from './utils/permissions';
@@ -176,9 +176,7 @@ function App() {
     }
   };
 
-  const getFilteredHistory = () => {
-    return filterHistoryByDays(history, dateRange);
-  };
+  const filteredHistory = useMemo(() => filterHistoryByDays(history, dateRange), [history, dateRange]);
 
   const handleExportPDF = async () => {
     setIsExporting(true);
@@ -271,6 +269,7 @@ function App() {
         {activeTab === 'history' && (
           <HistoryTab
             history={history}
+            filteredHistory={filteredHistory}
             dateRange={dateRange}
             onDateRangeChange={setDateRange}
             isExporting={isExporting}
@@ -279,7 +278,6 @@ function App() {
             onExport={handleExportPDF}
             onClear={handleClear}
             onRequestPermission={handleRequestPermission}
-            getFilteredHistory={getFilteredHistory}
           />
         )}
         {activeTab === 'settings' && (
