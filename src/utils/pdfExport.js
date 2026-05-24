@@ -38,10 +38,13 @@ export function validateExportInput({ history }) {
   }
 }
 
+export function filterHistoryByDays(history, dateRange) {
+  const cutoffDate = new Date(Date.now() - (dateRange * 24 * 60 * 60 * 1000));
+  return history.filter(item => new Date(item.timestamp) >= cutoffDate);
+}
+
 export function buildExportDataset({ history, dateRange }) {
-  const now = new Date();
-  const cutoffDate = new Date(now.getTime() - (dateRange * 24 * 60 * 60 * 1000));
-  const filteredHistory = history.filter(item => new Date(item.timestamp) >= cutoffDate);
+  const filteredHistory = filterHistoryByDays(history, dateRange);
   const recentHistory = filteredHistory.slice().reverse();
 
   if (recentHistory.length === 0) {

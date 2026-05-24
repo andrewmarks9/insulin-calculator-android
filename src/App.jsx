@@ -5,7 +5,7 @@ import { ensureStoragePermission, checkStoragePermission, getPermissionErrorMess
 import { PrivacyPolicy } from './PrivacyPolicy';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { estimateCarbsFromImage } from './utils/ai';
-import { validateExportInput, buildExportDataset, renderChartsToImages, buildPdfDocument, savePdfToFilesystem, sharePdf } from './utils/pdfExport';
+import { validateExportInput, filterHistoryByDays, buildExportDataset, renderChartsToImages, buildPdfDocument, savePdfToFilesystem, sharePdf } from './utils/pdfExport';
 import { useSettings } from './hooks/useSettings';
 import { useHistory } from './hooks/useHistory';
 import { useExportStatus } from './hooks/useExportStatus';
@@ -177,8 +177,7 @@ function App() {
   };
 
   const getFilteredHistory = () => {
-    const cutoff = new Date(Date.now() - dateRange * 24 * 60 * 60 * 1000);
-    return history.filter(item => new Date(item.timestamp) >= cutoff);
+    return filterHistoryByDays(history, dateRange);
   };
 
   const handleExportPDF = async () => {

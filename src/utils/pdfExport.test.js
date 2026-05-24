@@ -14,7 +14,7 @@ vi.mock('@capacitor/filesystem', () => ({
   }
 }));
 
-import { validateExportInput, buildExportDataset, savePdfToFilesystem } from './pdfExport';
+import { validateExportInput, filterHistoryByDays, buildExportDataset, savePdfToFilesystem } from './pdfExport';
 
 function createHistoryItem({ id, daysAgo, currentBG, carbs, unit = 'mg/dL', totalDose, carbDose, correctionDose, foodName = '' }) {
   const now = Date.now();
@@ -65,6 +65,32 @@ describe('pdfExport', () => {
   });
 
   describe('buildExportDataset', () => {
+    it('filters history by date range using shared helper', () => {
+      const newest = createHistoryItem({
+        id: 1,
+        daysAgo: 2,
+        currentBG: 140,
+        carbs: 30,
+        totalDose: 2.4,
+        carbDose: 2,
+        correctionDose: 0.4
+      });
+      const old = createHistoryItem({
+        id: 2,
+        daysAgo: 45,
+        currentBG: 150,
+        carbs: 40,
+        totalDose: 3.2,
+        carbDose: 2.5,
+        correctionDose: 0.7
+      });
+
+      const filtered = filterHistoryByDays([newest, old], 30);
+
+      expect(filtered).toHaveLength(1);
+      expect(filtered[0].id).toBe(1);
+    });
+
     it('filters by date range and returns chronological recentHistory', () => {
       const newest = createHistoryItem({
         id: 1,
