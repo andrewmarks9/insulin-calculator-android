@@ -6,6 +6,7 @@ export function CalculatorTab({
   inputs,
   onInputChange,
   result,
+  statusMessage,
   calculateError,
   invalidCalculateFields,
   shakeInvalidFields,
@@ -117,6 +118,13 @@ export function CalculatorTab({
           />
         </div>
       </div>
+
+      {statusMessage && (
+        <div className={`export-status ${statusMessage.type}`}>
+          {statusMessage.type === 'success' ? '✓ ' : '⚠ '}
+          {statusMessage.message}
+        </div>
+      )}
 
       {calculateError && <p className="validation-error">{calculateError}</p>}
 

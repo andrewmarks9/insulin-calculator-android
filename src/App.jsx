@@ -132,7 +132,7 @@ function App() {
       });
       if (image.base64String) {
         if (!settings.geminiApiKey) {
-          alert('Please enter your Gemini API Key in the Settings tab first.');
+          setTimedStatus({ type: 'error', message: 'Please enter your Gemini API Key in the Settings tab first.' }, 5000);
           setIsAnalyzingImage(false);
           return;
         }
@@ -140,12 +140,12 @@ function App() {
           image.base64String, `image/${image.format}`, settings.geminiApiKey
         );
         setLocalInputs(prev => ({ ...prev, carbs: estimatedCarbs.toString(), foodName: identifiedFood }));
-        alert(`Estimated ${estimatedCarbs}g of carbs from the image for: ${identifiedFood}`);
+        setTimedStatus({ type: 'success', message: `Estimated ${estimatedCarbs}g of carbs for: ${identifiedFood}` }, 5000);
       }
     } catch (error) {
       console.error('Camera/AI Error:', error);
       if (error.message && !error.message.includes('User cancelled')) {
-        alert(error.message || 'Failed to analyze meal image.');
+        setTimedStatus({ type: 'error', message: error.message || 'Failed to analyze meal image.' }, 5000);
       }
     } finally {
       setIsAnalyzingImage(false);
@@ -175,7 +175,7 @@ function App() {
       }
     } catch (error) {
       console.error('Error calculating or saving:', error);
-      alert(error.message || 'Failed to save calculation. Please try clearing old history.');
+      setTimedStatus({ type: 'error', message: error.message || 'Failed to save calculation. Please try clearing old history.' }, 5000);
     }
   };
 
@@ -269,6 +269,7 @@ function App() {
             inputs={inputs}
             onInputChange={handleInputChange}
             result={result}
+            statusMessage={exportStatus}
             calculateError={calculateError}
             invalidCalculateFields={invalidCalculateFields}
             shakeInvalidFields={shakeInvalidFields}
