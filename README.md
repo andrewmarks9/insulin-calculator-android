@@ -3,7 +3,7 @@
 ## 🚧 Alpha Release
 
 **This is an alpha release.** Some features are still under development:
-- ⚠️ **PDF Export** - Currently requires additional work and may not function as expected
+- ⚠️ **Medical validation remains required** - Always verify all dose suggestions with your care team
 
 A modern, user-friendly Android application for calculating insulin doses based on blood glucose levels and carbohydrate intake. Built with React, Vite, and Capacitor.
 
@@ -106,8 +106,8 @@ git push
 
 **Create a release:**
 ```bash
-git tag v0.1.0
-git push origin v0.1.0
+git tag v0.4.12
+git push origin v0.4.12
 ```
 
 See [AUTOMATE_RELEASES.md](AUTOMATE_RELEASES.md) for automatic APK building on GitHub.
@@ -127,12 +127,22 @@ The project includes a `.gitignore` file that excludes:
 insulin-calculator-android/
 ├── android/                 # Capacitor Android project
 ├── src/
-│   ├── App.jsx             # Main application component
+│   ├── App.jsx             # App shell and orchestration
+│   ├── CalculatorTab.jsx   # Calculator tab UI
+│   ├── HistoryTab.jsx      # History and export tab UI
+│   ├── SettingsTab.jsx     # Settings tab UI
 │   ├── App.css             # Application styles
 │   ├── PrivacyPolicy.jsx   # Privacy policy component
+│   ├── hooks/
+│   │   ├── useSettings.js      # Persisted settings + unit state
+│   │   ├── useHistory.js       # History state initialized from storage
+│   │   └── useExportStatus.js  # Timed export status helper
 │   ├── utils/
 │   │   ├── calculator.js   # Insulin calculation logic
-│   │   └── storage.js      # LocalStorage utilities
+│   │   ├── storage.js      # LocalStorage utilities with GB size cap
+│   │   ├── permissions.js  # Android permissions helpers
+│   │   ├── pdfExport.js    # PDF export pipeline helpers
+│   │   └── ai.js           # Gemini image carb estimation
 │   └── main.jsx            # Application entry point
 ├── public/                 # Static assets
 ├── index.html              # HTML template
@@ -159,6 +169,11 @@ npx cap run android     # Build and run on Android device/emulator
 
 # Linting
 npm run lint            # Run ESLint
+
+# Testing
+npm test                # Run Vitest in watch mode
+npm run test:ui         # Run Vitest with UI
+npm run test:coverage   # Generate test coverage report
 ```
 
 ## Downloading APK Releases
@@ -175,8 +190,8 @@ Pre-built APK files are automatically available after each version release:
 
 **Note**: Releases are created by pushing version tags:
 ```bash
-git tag v0.1.0
-git push origin v0.1.0
+git tag v0.4.12
+git push origin v0.4.12
 ```
 
 See [AUTOMATE_RELEASES.md](AUTOMATE_RELEASES.md) for full details on automated builds.
@@ -258,6 +273,10 @@ This app includes modern improvements for reliability and user experience:
 - ✅ **Configurable Storage Limit**: Use a GB slider to cap history storage usage
 - ✅ **User-Friendly Error Messages**: Clear guidance when something goes wrong
 - ✅ **Confirmation Dialogs**: Prevents accidental data loss
+- ✅ **Modular App Architecture**: App shell split into `CalculatorTab`, `HistoryTab`, `SettingsTab`, and focused hooks
+- ✅ **Consistent Dose Values**: Dose values are rounded once at calculation time for UI, history, and PDF consistency
+- ✅ **Shared Date Filtering**: History UI and PDF export now use one shared `filterHistoryByDays` helper
+- ✅ **History Rendering Optimization**: History filtering memoized with `useMemo` to avoid repeated recomputation
 
 See [DEVELOPMENT.md](DEVELOPMENT.md) for technical details.
 
@@ -334,7 +353,13 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.10 (Current)
+### v0.4.12 (Current)
+- Memoized filtered history in App using `useMemo` and passed pre-filtered data to History tab
+
+### v0.4.11
+- Added shared `filterHistoryByDays(history, dateRange)` helper used by both History UI and PDF export dataset building
+
+### v0.4.10
 - Fixed React Hooks lint compliance for history initialization by switching to lazy `useState(() => getHistory())`
 - Updated all tracked Markdown docs for v0.4.10 release consistency
 
@@ -369,7 +394,7 @@ For issues, questions, or suggestions:
 - Added focused unit tests for PDF export data-shaping and validation helpers
 - Added fallback tests for PDF file saving (Documents to Cache)
 
-### v0.4.3 (Current)
+### v0.4.3
 - Switched history storage limits from entry count to gigabyte-based limits
 - Added a slider control for history storage limit in Settings
 
