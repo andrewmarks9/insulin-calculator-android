@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { calculateDose, UNITS, convertUnitValue } from './utils/calculator';
 import { saveHistoryItem, clearHistory, enforceHistoryLimit } from './utils/storage';
-import { ensureStoragePermission, checkStoragePermission, getPermissionErrorMessage, PermissionState, isNativePlatform } from './utils/permissions';
+import { ensureStoragePermission, checkStoragePermission, getPermissionErrorMessage, openAppSettings, PermissionState, isNativePlatform } from './utils/permissions';
 import { PrivacyPolicy } from './PrivacyPolicy';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { estimateCarbsFromImage } from './utils/ai';
@@ -91,6 +91,17 @@ function App() {
       if (permResult.granted) {
         setTimedStatus({ type: 'success', message: 'Storage permission granted!' }, 3000);
       } else {
+        if (permResult.state === PermissionState.DENIED) {
+          const opened = await openAppSettings();
+          setTimedStatus({
+            type: 'error',
+            message: opened
+              ? 'Permission denied. Opened app settings so you can enable Storage permission.'
+              : 'Permission denied. Please enable it in Settings -> Apps -> Insulin Calculator -> Permissions -> Storage.'
+          }, 8000);
+          return;
+        }
+
         setTimedStatus({
           type: 'error',
           message: 'Permission denied. Please enable it in Settings → Apps → Insulin Calculator → Permissions → Storage'

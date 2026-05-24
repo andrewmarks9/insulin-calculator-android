@@ -1,5 +1,6 @@
 import { Filesystem } from '@capacitor/filesystem';
 import { Capacitor } from '@capacitor/core';
+import { App } from '@capacitor/app';
 
 /**
  * Permission states
@@ -122,14 +123,8 @@ export async function openAppSettings() {
             return false;
         }
 
-        // Note: Capacitor doesn't have a built-in way to open settings
-        // You might need to use a plugin like @capacitor/app or implement native code
-        // For now, we'll just log this
-        console.log('Please manually enable storage permissions in your device settings');
-
-        // You could use the App plugin to open settings:
-        // import { App } from '@capacitor/app';
-        // await App.openUrl({ url: 'app-settings:' });
+        // Android/iOS app settings deep link handled by native platform.
+        await App.openUrl({ url: 'app-settings:' });
 
         return true;
     } catch (error) {

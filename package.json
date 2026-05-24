@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@capacitor/android": "^5.7.8",
+    "@capacitor/app": "^5.0.8",
     "@capacitor/camera": "^5.0.10",
     "@capacitor/cli": "^5.7.8",
     "@capacitor/core": "^5.7.8",
