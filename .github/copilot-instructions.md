@@ -6,7 +6,13 @@ React + Vite + Capacitor medical app for calculating insulin doses. All data sto
 ## Architecture
 
 ### Key Components
-- **`src/App.jsx`**: Single-page app with tabbed interface (Calculate/History)
+- **`src/App.jsx`**: App shell/orchestrator for tabs and shared actions
+- **`src/CalculatorTab.jsx`**: Presentational calculator tab UI
+- **`src/HistoryTab.jsx`**: Presentational history/export tab UI
+- **`src/SettingsTab.jsx`**: Presentational settings tab UI
+- **`src/hooks/useSettings.js`**: Persisted settings/unit state hook
+- **`src/hooks/useHistory.js`**: History state hook initialized from storage
+- **`src/hooks/useExportStatus.js`**: Shared timed export-status helper
 - **`src/utils/calculator.js`**: Pure calculation logic, supports mg/dL and mmol/L units
 - **`src/utils/storage.js`**: LocalStorage wrapper with GB-based history limits and trimming
 - **`src/utils/pdfExport.js`**: PDF export pipeline utilities (validate/dataset/charts/document/save/share)
@@ -62,6 +68,8 @@ useEffect(() => {
   saveSettings({ unit, targetBG, carbRatio, correctionFactor });
 }, [unit, inputs.targetBG, inputs.carbRatio, inputs.correctionFactor]);
 ```
+
+For history initialization in hooks, prefer lazy state initialization (`useState(() => getHistory())`) over calling `setState` inside a mount effect to keep React Hooks lint checks green.
 
 ## Development Workflow
 

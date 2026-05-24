@@ -362,7 +362,11 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.9 (Current)
+### v0.4.10 (Current)
+- Fixed React Hooks lint compliance for history initialization by switching to lazy `useState(() => getHistory())`
+- Updated markdown docs for v0.4.10 release consistency
+
+### v0.4.9
 - Dose values rounded at calculation time so history, PDF, and display are always consistent
 - `App.jsx` refactored into `CalculatorTab`, `HistoryTab`, `SettingsTab` components and `useSettings` / `useHistory` / `useExportStatus` hooks
 

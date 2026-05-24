@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No changes yet.
 
+## [0.4.10] - 2026-05-23
+
+### Fixed
+- Resolved React Hooks lint failure by initializing history with lazy `useState(() => getHistory())` instead of calling `setState` inside an effect
+
 ## [0.4.9] - 2026-05-23
 
 ### Fixed
