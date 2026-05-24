@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { UNITS } from '../utils/calculator';
 import { saveSettings, getSettings, DEFAULT_HISTORY_LIMIT_GB } from '../utils/storage';
 
@@ -13,6 +13,7 @@ const INITIAL_SETTINGS = {
 export function useSettings() {
   const [unit, setUnit] = useState(UNITS.MGDL);
   const [settings, setSettings] = useState(INITIAL_SETTINGS);
+  const settingsHydratedRef = useRef(false);
 
   // Load persisted settings once on mount
   useEffect(() => {
@@ -27,10 +28,14 @@ export function useSettings() {
         historyLimitGb: (saved.historyLimitGb || DEFAULT_HISTORY_LIMIT_GB).toString()
       });
     }
+    settingsHydratedRef.current = true;
   }, []);
 
   // Persist whenever any tracked field changes
   useEffect(() => {
+    if (!settingsHydratedRef.current) {
+      return;
+    }
     saveSettings({ unit, ...settings });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unit, settings.targetBG, settings.carbRatio, settings.correctionFactor, settings.geminiApiKey, settings.historyLimitGb]);
