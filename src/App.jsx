@@ -197,7 +197,7 @@ function App() {
   const handleExportPDF = async () => {
     setIsExporting(true);
     try {
-      validateExportInput({ history });
+      validateExportInput({ history, dateRange });
       const dataset = buildExportDataset({ history, dateRange });
       const chartImages = await renderChartsToImages(dataset);
       const doc = buildPdfDocument({ dataset, chartImages, dateRange });

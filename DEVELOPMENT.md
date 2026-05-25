@@ -2,10 +2,11 @@
 
 This guide covers Git workflows, building locally, and understanding key features of the Insulin Calculator app.
 
-> Last updated for release `v0.4.24`.
+> Last updated for release `v0.4.25`.
 
 > Release-prep note: test export on both paths - browser download on web and Filesystem + Share on native Android.
 > Release-prep note: confirm chart image capture is stable on slower devices (no fixed timeout dependency).
+> Release-prep note: confirm validation and disabled export state match the selected date-range filter.
 
 ## Git Workflow
 
@@ -38,8 +39,8 @@ git commit -m "Clear message describing your changes"
 git push
 
 # Create a release tag
-git tag v0.4.24
-git push origin v0.4.24
+git tag v0.4.25
+git push origin v0.4.25
 ```
 
 ### Useful Commands

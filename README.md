@@ -356,8 +356,12 @@ For issues, questions, or suggestions:
 ### Upcoming (Release Prep)
 - Web export now uses a browser download path while native Android keeps Filesystem + Share.
 - PDF chart capture now waits for render completion (with frame fallback) instead of a fixed delay.
+- Export validation now checks the selected date range so empty filtered ranges are blocked before PDF generation.
 
-### v0.4.24 (Current)
+### v0.4.25 (Current)
+- Aligned export input validation with the selected date range so exports fail fast when the filtered range has no rows.
+
+### v0.4.24
 - Web export now uses a browser download path while native Android keeps Filesystem + Share.
 - PDF chart capture now waits for render completion (with frame fallback) instead of a fixed delay.
 

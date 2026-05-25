@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No changes yet.
 
+## [0.4.25] - 2026-05-25
+
+### Fixed
+- Aligned export input validation with the selected date range so exports fail fast when the filtered range has no rows
+
 ## [0.4.24] - 2026-05-25
 
 ### Changed

@@ -88,9 +88,16 @@ function generateChartImage(config) {
   });
 }
 
-export function validateExportInput({ history }) {
+export function validateExportInput({ history, dateRange }) {
   if (!history || history.length === 0) {
     throw new Error('No history to export');
+  }
+
+  if (dateRange !== undefined) {
+    const filteredHistory = filterHistoryByDays(history, dateRange);
+    if (filteredHistory.length === 0) {
+      throw new Error(`No data in the last ${dateRange} days`);
+    }
   }
 }
 

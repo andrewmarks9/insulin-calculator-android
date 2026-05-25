@@ -62,6 +62,34 @@ describe('pdfExport', () => {
 
       expect(() => validateExportInput({ history })).not.toThrow();
     });
+
+    it('throws when selected date range has no rows', () => {
+      const history = [createHistoryItem({
+        id: 1,
+        daysAgo: 90,
+        currentBG: 140,
+        carbs: 30,
+        totalDose: 2.4,
+        carbDose: 2,
+        correctionDose: 0.4
+      })];
+
+      expect(() => validateExportInput({ history, dateRange: 30 })).toThrow('No data in the last 30 days');
+    });
+
+    it('does not throw when selected date range includes rows', () => {
+      const history = [createHistoryItem({
+        id: 1,
+        daysAgo: 2,
+        currentBG: 140,
+        carbs: 30,
+        totalDose: 2.4,
+        carbDose: 2,
+        correctionDose: 0.4
+      })];
+
+      expect(() => validateExportInput({ history, dateRange: 30 })).not.toThrow();
+    });
   });
 
   describe('buildExportDataset', () => {
