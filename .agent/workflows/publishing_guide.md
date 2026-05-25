@@ -4,7 +4,7 @@ description: Guide to publishing the Android App to the Play Store
 
 # Publishing to Google Play Store
 
-> Last updated for release `v0.4.18`.
+> Last updated for release `v0.4.19`.
 
 ## 1. Prepare Assets
 Ensure you have high-resolution icons and splash screens.
@@ -20,8 +20,8 @@ Update your version numbers in `android/app/build.gradle`:
 
 Repository release trigger example:
 ```bash
-git tag v0.4.18
-git push origin v0.4.18
+git tag v0.4.19
+git push origin v0.4.19
 ```
 
 ## 3. Signing the App

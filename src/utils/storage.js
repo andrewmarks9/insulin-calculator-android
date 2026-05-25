@@ -95,9 +95,14 @@ export function clearHistory() {
 
 const SETTINGS_KEY = 'insulin_calc_settings';
 
+function toStoredSettings(settings) {
+    const { geminiApiKey: _geminiApiKey, ...publicSettings } = settings;
+    return publicSettings;
+}
+
 export function saveSettings(settings) {
     try {
-        localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+        localStorage.setItem(SETTINGS_KEY, JSON.stringify(toStoredSettings(settings)));
     } catch (error) {
         console.error('Error saving settings:', error);
         // Settings are less critical, so we just log the error

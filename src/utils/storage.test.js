@@ -124,19 +124,25 @@ describe('storage', () => {
   });
 
   describe('saveSettings', () => {
-    it('saves settings to localStorage', () => {
+    it('saves only public settings to localStorage', () => {
       const settings = {
         unit: 'mg/dL',
         targetBG: 100,
         correctionFactor: 50,
-        carbRatio: 10
+        carbRatio: 10,
+        geminiApiKey: 'should-not-be-stored'
       };
 
       saveSettings(settings);
       
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'insulin_calc_settings',
-        JSON.stringify(settings)
+        JSON.stringify({
+          unit: 'mg/dL',
+          targetBG: 100,
+          correctionFactor: 50,
+          carbRatio: 10
+        })
       );
     });
   });

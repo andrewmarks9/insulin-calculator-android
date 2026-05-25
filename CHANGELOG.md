@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No changes yet.
 
+## [0.4.19] - 2026-05-25
+
+### Added
+- Moved the Gemini API key out of LocalStorage and into secure device storage, with migration from older plaintext settings on first load
+
+### Changed
+- Updated settings persistence so LocalStorage only keeps public app preferences
+
 ## [0.4.18] - 2026-05-25
 
 ### Fixed

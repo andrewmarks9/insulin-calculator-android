@@ -40,6 +40,11 @@ React + Vite + Capacitor medical app for calculating insulin doses. All data sto
 - Move keyboard focus to newly rendered primary results after calculate
 - Keep export actions aligned with the selected date range; do not gate export on total history alone.
 
+### Secure Storage
+- Store the Gemini API key in secure device storage on native platforms, not in LocalStorage
+- Migrate any legacy plaintext API key out of LocalStorage on first load
+- Keep LocalStorage settings limited to public preferences only
+
 ### Storage Patterns
 ```javascript
 // All storage operations MUST be wrapped in try-catch

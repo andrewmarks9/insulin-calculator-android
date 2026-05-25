@@ -23,6 +23,7 @@ Use this checklist for pull requests before merge/release.
 - [ ] LocalStorage interactions are wrapped in error handling.
 - [ ] Quota-exceeded behavior still trims/recovers as expected.
 - [ ] History limits and retention behavior remain correct.
+- [ ] Sensitive API keys are stored outside LocalStorage and migrated from legacy plaintext settings.
 
 ## Android Permissions and Export
 - [ ] Storage permission flow works on Android native builds.

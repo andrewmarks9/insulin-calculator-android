@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { UNITS } from '../utils/calculator';
 import { saveSettings, getSettings, DEFAULT_HISTORY_LIMIT_GB } from '../utils/storage';
+import { getGeminiApiKey, saveGeminiApiKey } from '../utils/secureStorage';
 
 const INITIAL_SETTINGS = {
   targetBG: '',
@@ -17,18 +18,57 @@ export function useSettings() {
 
   // Load persisted settings once on mount
   useEffect(() => {
-    const saved = getSettings();
-    if (saved) {
-      if (saved.unit) setUnit(saved.unit);
+    let cancelled = false;
+
+    const hydrateSettings = async () => {
+      const saved = getSettings();
+      const legacyGeminiApiKey = saved?.geminiApiKey || '';
+
+      if (saved?.unit) {
+        setUnit(saved.unit);
+      }
+
+      const publicSettings = {
+        targetBG: saved?.targetBG || '',
+        carbRatio: saved?.carbRatio || '',
+        correctionFactor: saved?.correctionFactor || '',
+        geminiApiKey: '',
+        historyLimitGb: (saved?.historyLimitGb || DEFAULT_HISTORY_LIMIT_GB).toString()
+      };
+
+      const secureGeminiApiKey = await getGeminiApiKey();
+      const geminiApiKey = secureGeminiApiKey || legacyGeminiApiKey;
+
+      if (cancelled) {
+        return;
+      }
+
       setSettings({
-        targetBG: saved.targetBG || '',
-        carbRatio: saved.carbRatio || '',
-        correctionFactor: saved.correctionFactor || '',
-        geminiApiKey: saved.geminiApiKey || '',
-        historyLimitGb: (saved.historyLimitGb || DEFAULT_HISTORY_LIMIT_GB).toString()
+        ...publicSettings,
+        geminiApiKey
       });
-    }
-    settingsHydratedRef.current = true;
+
+      if (geminiApiKey) {
+        await saveGeminiApiKey(geminiApiKey);
+      }
+
+      saveSettings({
+        unit: saved?.unit || UNITS.MGDL,
+        ...publicSettings,
+        geminiApiKey
+      });
+
+      settingsHydratedRef.current = true;
+    };
+
+    hydrateSettings().catch(error => {
+      console.error('Error hydrating settings:', error);
+      settingsHydratedRef.current = true;
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Persist whenever any tracked field changes
@@ -36,6 +76,7 @@ export function useSettings() {
     if (!settingsHydratedRef.current) {
       return;
     }
+    void saveGeminiApiKey(settings.geminiApiKey);
     saveSettings({ unit, ...settings });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unit, settings.targetBG, settings.carbRatio, settings.correctionFactor, settings.geminiApiKey, settings.historyLimitGb]);

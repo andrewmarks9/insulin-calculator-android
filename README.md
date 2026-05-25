@@ -28,7 +28,7 @@ A modern, user-friendly Android application for calculating insulin doses based 
   
 - 📊 **History Tracking** - Automatic logging of all calculations with timestamps
 - 📄 **PDF Export** - Export your history as a professional PDF report
-- 💾 **Persistent Settings** - Your preferences are saved automatically
+- 💾 **Persistent Settings** - Your preferences are saved automatically, and the Gemini API key is stored in secure device storage on Android
 - 🌓 **Dark Mode UI** - Modern, eye-friendly interface
 - 🔄 **Unit Support** - Switch between mg/dL and mmol/L
 - 🔒 **Privacy First** - All data stored locally on your device
@@ -38,7 +38,7 @@ A modern, user-friendly Android application for calculating insulin doses based 
 - **Frontend**: React 19 + Vite
 - **Mobile**: Capacitor 6
 - **PDF Generation**: jsPDF + jsPDF-AutoTable
-- **Storage**: LocalStorage with quota management
+- **Storage**: LocalStorage with quota management plus secure device storage for the Gemini API key
 - **Styling**: Vanilla CSS with modern design
 
 ## Prerequisites
@@ -106,8 +106,8 @@ git push
 
 **Create a release:**
 ```bash
-git tag v0.4.18
-git push origin v0.4.18
+git tag v0.4.19
+git push origin v0.4.19
 ```
 
 See [AUTOMATE_RELEASES.md](AUTOMATE_RELEASES.md) for automatic APK building on GitHub.
@@ -190,8 +190,8 @@ Pre-built APK files are automatically available after each version release:
 
 **Note**: Releases are created by pushing version tags:
 ```bash
-git tag v0.4.18
-git push origin v0.4.18
+git tag v0.4.19
+git push origin v0.4.19
 ```
 
 See [AUTOMATE_RELEASES.md](AUTOMATE_RELEASES.md) for full details on automated builds.
@@ -353,7 +353,10 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.18 (Current)
+### v0.4.19 (Current)
+- Moved the Gemini API key out of LocalStorage into secure device storage and migrated legacy plaintext settings on first load
+
+### v0.4.18
 - Aligned History export behavior with the selected date range and renamed the action to `Export last N days`
 
 ### v0.4.17

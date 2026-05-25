@@ -45,7 +45,7 @@ export function SettingsTab({ settings, onInputChange }) {
             <li>Copy the long API key (starts with AIza...) and paste it in the box above.</li>
           </ol>
           <p className="settings-info-note">
-            <strong>Privacy Note:</strong> Your key is securely stored locally on this device. It is never sent to any server other than directly to Google's official AI endpoint.
+            <strong>Privacy Note:</strong> Your key is stored in the device's secure storage on Android and is only sent directly to Google's official AI endpoint.
           </p>
         </div>
       </div>
