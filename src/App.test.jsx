@@ -1,21 +1,27 @@
 import React from 'react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+const { mockedSettings, clearGeminiApiKeySettingMock } = vi.hoisted(() => ({
+  mockedSettings: {
+    targetBG: '',
+    carbRatio: '',
+    correctionFactor: '',
+    geminiApiKey: '',
+    historyLimitGb: '0.005'
+  },
+  clearGeminiApiKeySettingMock: vi.fn()
+}));
 
 vi.mock('./hooks/useSettings', () => ({
   useSettings: () => ({
     unit: 'mg/dL',
     setUnit: vi.fn(),
-    settings: {
-      targetBG: '',
-      carbRatio: '',
-      correctionFactor: '',
-      geminiApiKey: '',
-      historyLimitGb: '0.005'
-    },
+    settings: mockedSettings,
     updateSetting: vi.fn(),
-    updateSettings: vi.fn()
+    updateSettings: vi.fn(),
+    clearGeminiApiKeySetting: clearGeminiApiKeySettingMock
   })
 }));
 
@@ -45,6 +51,15 @@ vi.mock('./utils/permissions', () => ({
 import App from './App';
 
 describe('App', () => {
+  beforeEach(() => {
+    mockedSettings.targetBG = '';
+    mockedSettings.carbRatio = '';
+    mockedSettings.correctionFactor = '';
+    mockedSettings.geminiApiKey = '';
+    mockedSettings.historyLimitGb = '0.005';
+    clearGeminiApiKeySettingMock.mockReset();
+  });
+
   it('shows calculate validation error when required fields are empty', async () => {
     const user = userEvent.setup();
 
@@ -53,5 +68,21 @@ describe('App', () => {
     await user.click(screen.getByRole('button', { name: /calculate dose/i }));
 
     expect(screen.getByText('Enter all numeric fields before calculating.')).toBeInTheDocument();
+  });
+
+  it('shows a specific validation message when ISF is zero', async () => {
+    const user = userEvent.setup();
+
+    mockedSettings.targetBG = '100';
+    mockedSettings.carbRatio = '10';
+    mockedSettings.correctionFactor = '0';
+
+    render(<App />);
+
+    await user.type(screen.getByLabelText(/current bg/i), '180');
+    await user.type(screen.getByLabelText(/carbs \(g\)/i), '60');
+    await user.click(screen.getByRole('button', { name: /calculate dose/i }));
+
+    expect(screen.getByText('ISF (correction factor) must be greater than 0.')).toBeInTheDocument();
   });
 });

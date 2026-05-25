@@ -127,6 +127,20 @@ export function getSettings() {
     }
 }
 
+export function clearLegacyGeminiApiKeyFromSettings() {
+    try {
+        const settings = getSettings();
+        if (!settings || !Object.prototype.hasOwnProperty.call(settings, 'geminiApiKey')) {
+            return;
+        }
+
+        const { geminiApiKey: _legacyGeminiApiKey, ...publicSettings } = settings;
+        localStorage.setItem(SETTINGS_KEY, JSON.stringify(publicSettings));
+    } catch (error) {
+        console.error('Error clearing legacy Gemini API key from settings:', error);
+    }
+}
+
 export function enforceHistoryLimit(limitGb) {
     try {
         const history = getHistory();

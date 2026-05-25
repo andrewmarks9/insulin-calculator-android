@@ -24,7 +24,7 @@ function debugLog(...args) {
 }
 
 function App() {
-  const { unit, setUnit, settings, updateSetting, updateSettings } = useSettings();
+  const { unit, setUnit, settings, updateSetting, updateSettings, clearGeminiApiKeySetting } = useSettings();
   const [history, setHistory] = useHistory();
   const [exportStatus, setTimedStatus] = useExportStatus();
 
@@ -175,6 +175,28 @@ function App() {
         triggerInvalidShake();
         return;
       }
+
+      const zeroDenominatorFields = [];
+      if (parseFloat(inputs.correctionFactor) === 0) {
+        zeroDenominatorFields.push('correctionFactor');
+      }
+      if (parseFloat(inputs.carbRatio) === 0) {
+        zeroDenominatorFields.push('carbRatio');
+      }
+
+      if (zeroDenominatorFields.length > 0) {
+        const zeroMessage = zeroDenominatorFields.length === 2
+          ? 'ISF (correction factor) and carb ratio must be greater than 0.'
+          : zeroDenominatorFields[0] === 'correctionFactor'
+            ? 'ISF (correction factor) must be greater than 0.'
+            : 'Carb ratio must be greater than 0.';
+
+        setCalculateError(zeroMessage);
+        setInvalidCalculateFields(zeroDenominatorFields);
+        triggerInvalidShake();
+        return;
+      }
+
       const doseResult = calculateDose({ ...inputs, unit });
       if (doseResult) {
         setCalculateError('');
@@ -201,9 +223,14 @@ function App() {
     }
   };
 
-  const handleClearGeminiApiKey = () => {
-    updateSetting('geminiApiKey', '');
-    setTimedStatus({ type: 'success', message: 'Gemini API key cleared from secure storage.' }, 3000);
+  const handleClearGeminiApiKey = async () => {
+    try {
+      await clearGeminiApiKeySetting();
+      setTimedStatus({ type: 'success', message: 'Gemini API key cleared from secure storage.' }, 3000);
+    } catch (error) {
+      console.error('Error clearing Gemini API key:', error);
+      setTimedStatus({ type: 'error', message: 'Failed to clear Gemini API key.' }, 3000);
+    }
   };
 
   const filteredHistory = useMemo(() => filterHistoryByDays(history, dateRange), [history, dateRange]);
@@ -212,9 +239,6 @@ function App() {
     setIsExporting(true);
     try {
       validateExportInput({ history, dateRange });
-      const dataset = buildExportDataset({ history, dateRange });
-      const chartImages = await renderChartsToImages(dataset);
-      const doc = buildPdfDocument({ dataset, chartImages, dateRange });
 
       if (isNativePlatform()) {
         debugLog('Checking storage permissions...');
@@ -230,6 +254,13 @@ function App() {
 
         debugLog('Storage permission granted, proceeding with native export...');
         setPermissionStatus(permResult.state);
+      }
+
+      const dataset = buildExportDataset({ history, dateRange });
+      const chartImages = await renderChartsToImages(dataset);
+      const doc = buildPdfDocument({ dataset, chartImages, dateRange });
+
+      if (isNativePlatform()) {
         const savedFile = await savePdfToFilesystem(doc);
         const shareResult = await sharePdf(savedFile);
         debugLog('Share result:', shareResult);

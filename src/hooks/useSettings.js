@@ -1,7 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { UNITS } from '../utils/calculator';
-import { saveSettings, getSettings, DEFAULT_HISTORY_LIMIT_GB } from '../utils/storage';
-import { getGeminiApiKey, saveGeminiApiKey } from '../utils/secureStorage';
+import {
+  saveSettings,
+  getSettings,
+  clearLegacyGeminiApiKeyFromSettings,
+  DEFAULT_HISTORY_LIMIT_GB
+} from '../utils/storage';
+import { getGeminiApiKey, saveGeminiApiKey, clearGeminiApiKey } from '../utils/secureStorage';
 
 const INITIAL_SETTINGS = {
   targetBG: '',
@@ -110,5 +115,16 @@ export function useSettings() {
     setSettings(prev => ({ ...prev, ...updates }));
   };
 
-  return { unit, setUnit, settings, updateSetting, updateSettings };
+  const clearGeminiApiKeySetting = async () => {
+    if (saveDebounceRef.current) {
+      clearTimeout(saveDebounceRef.current);
+      saveDebounceRef.current = null;
+    }
+
+    await clearGeminiApiKey();
+    clearLegacyGeminiApiKeyFromSettings();
+    setSettings(prev => ({ ...prev, geminiApiKey: '' }));
+  };
+
+  return { unit, setUnit, settings, updateSetting, updateSettings, clearGeminiApiKeySetting };
 }

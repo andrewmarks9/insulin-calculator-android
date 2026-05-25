@@ -353,13 +353,13 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### Upcoming (Release Prep)
-- Web export now uses a browser download path while native Android keeps Filesystem + Share.
-- PDF chart capture now waits for render completion (with frame fallback) instead of a fixed delay.
-- Export validation now checks the selected date range so empty filtered ranges are blocked before PDF generation.
-- Added a paired unit-equivalence calculator test to verify mmol and converted mg/dL inputs produce matching doses.
+### v0.4.27 (Current)
+- Debounced settings persistence to reduce LocalStorage write churn during rapid settings updates.
+- Gated export and permission debug logs to development builds to reduce production console noise.
+- Clear-saved-key action now clears secure storage immediately and purges any legacy Gemini key from LocalStorage settings.
+- Added specific validation messages when ISF (correction factor) and/or carb ratio are zero.
 
-### v0.4.26 (Current)
+### v0.4.26
 - Strengthened mmol/L calculator test coverage with a paired equivalence assertion against converted mg/dL inputs.
 
 ### v0.4.25

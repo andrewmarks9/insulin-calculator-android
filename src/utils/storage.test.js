@@ -1,5 +1,13 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { saveHistoryItem, getHistory, clearHistory, saveSettings, getSettings, enforceHistoryLimit } from './storage';
+import {
+  saveHistoryItem,
+  getHistory,
+  clearHistory,
+  saveSettings,
+  getSettings,
+  clearLegacyGeminiApiKeyFromSettings,
+  enforceHistoryLimit
+} from './storage';
 
 // Mock localStorage
 const localStorageMock = (() => {
@@ -173,6 +181,21 @@ describe('storage', () => {
       
       const settings = getSettings();
       expect(settings).toBeNull();
+    });
+
+    it('removes legacy geminiApiKey from stored settings when requested', () => {
+      localStorageMock.setItem('insulin_calc_settings', JSON.stringify({
+        unit: 'mg/dL',
+        targetBG: 100,
+        geminiApiKey: 'legacy-key'
+      }));
+
+      clearLegacyGeminiApiKeyFromSettings();
+
+      expect(getSettings()).toEqual({
+        unit: 'mg/dL',
+        targetBG: 100
+      });
     });
   });
 });
