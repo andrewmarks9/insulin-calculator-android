@@ -43,12 +43,20 @@ function getConfiguredHistoryLimitBytes() {
     return convertGbToBytes(normalizedLimitGb);
 }
 
+function createHistoryId() {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+        return crypto.randomUUID();
+    }
+
+    return `${Date.now()}-${Math.random()}`;
+}
+
 export function saveHistoryItem(item) {
     try {
         const history = getHistory();
         const maxHistoryBytes = getConfiguredHistoryLimitBytes();
         const newItem = {
-            id: Date.now(),
+            id: createHistoryId(),
             timestamp: new Date().toISOString(),
             ...item
         };

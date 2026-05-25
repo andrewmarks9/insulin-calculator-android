@@ -59,6 +59,8 @@ try {
 ```
 Current behavior uses a configurable GB-based limit with automatic oldest-entry trimming and quota handling.
 
+History items should use collision-resistant string IDs, preferably `crypto.randomUUID()` with a string fallback, instead of `Date.now()` so rapid saves do not collide.
+
 Dose calculation now explicitly rejects zero denominators (`correctionFactor`, `carbRatio`) and returns `null` for invalid inputs.
 
 `calculateDose()` keeps `totalDose` aligned with clamped component doses so the breakdown matches the total.

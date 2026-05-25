@@ -106,8 +106,8 @@ git push
 
 **Create a release:**
 ```bash
-git tag v0.4.21
-git push origin v0.4.21
+git tag v0.4.22
+git push origin v0.4.22
 ```
 
 See [AUTOMATE_RELEASES.md](AUTOMATE_RELEASES.md) for automatic APK building on GitHub.
@@ -353,7 +353,10 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.21 (Current)
+### v0.4.22 (Current)
+- Replaced Date.now-based history IDs with collision-resistant string IDs so rapid saves do not reuse the same identifier
+
+### v0.4.21
 - Hardened Gemini meal estimation parsing so fenced JSON, trailing text, and malformed responses show a clear error instead of failing silently
 
 ### v0.4.20

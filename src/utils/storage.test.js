@@ -64,6 +64,8 @@ describe('storage', () => {
       expect(result).toHaveLength(1);
       expect(result[0]).toMatchObject(item);
       expect(result[0]).toHaveProperty('id');
+      expect(typeof result[0].id).toBe('string');
+      expect(result[0].id.length).toBeGreaterThan(0);
       expect(result[0]).toHaveProperty('timestamp');
     });
 

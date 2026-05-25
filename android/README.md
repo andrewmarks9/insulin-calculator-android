@@ -362,7 +362,10 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.21 (Current)
+### v0.4.22 (Current)
+- Replaced Date.now-based history IDs with collision-resistant string IDs so rapid saves do not reuse the same identifier
+
+### v0.4.21
 - Hardened Gemini meal estimation parsing so fenced JSON, trailing text, and malformed responses show a clear error instead of failing silently
 
 ### v0.4.20

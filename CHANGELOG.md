@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No changes yet.
 
+## [0.4.22] - 2026-05-25
+
+### Fixed
+- Replaced Date.now-based history IDs with collision-resistant string IDs so rapid saves do not reuse the same identifier
+
 ## [0.4.21] - 2026-05-25
 
 ### Fixed

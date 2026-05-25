@@ -23,6 +23,7 @@ Use this checklist for pull requests before merge/release.
 - [ ] LocalStorage interactions are wrapped in error handling.
 - [ ] Quota-exceeded behavior still trims/recovers as expected.
 - [ ] History limits and retention behavior remain correct.
+- [ ] History item IDs are collision-resistant strings and do not rely on Date.now().
 - [ ] Sensitive API keys are stored outside LocalStorage and migrated from legacy plaintext settings.
 - [ ] Users can clear the secure-stored Gemini API key from Settings.
 
