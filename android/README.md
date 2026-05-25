@@ -3,7 +3,7 @@
 ## 🚧 Alpha Release
 
 **This is an alpha release.** Some features are still under development:
-- ⚠️ **PDF Export** - Currently requires additional work and may not function as expected
+- ⚠️ **Medical validation remains required** - Always verify all dose suggestions with your care team
 
 A modern, user-friendly Android application for calculating insulin doses based on blood glucose levels and carbohydrate intake. Built with React, Vite, and Capacitor.
 
@@ -32,7 +32,7 @@ A modern, user-friendly Android application for calculating insulin doses based 
 ## Tech Stack
 
 - **Frontend**: React 19 + Vite
-- **Mobile**: Capacitor 6
+- **Mobile**: Capacitor 5
 - **PDF Generation**: jsPDF + jsPDF-AutoTable
 - **Storage**: LocalStorage with quota management plus secure device storage for the Gemini API key
 - **Styling**: Vanilla CSS with modern design

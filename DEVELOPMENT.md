@@ -173,8 +173,8 @@ The app automatically handles storage permissions for PDF export:
 
 ### LocalStorage Limits
 
-- Max 1,000 history items (auto-cleanup if exceeded)
-- ~5-10MB typical device limit
+- Configurable GB-based history limit (default 0.005 GB / ~5 MB) with automatic oldest-entry trimming
+- ~5-10MB typical browser LocalStorage quota (device/browser dependent)
 - All data stored locally (no backend)
 
 ### History Management
@@ -302,7 +302,7 @@ npx cap sync android
 ### Storage Full
 
 - Check device storage: Settings → Storage
-- History auto-cleans at 1,000 items
+- History auto-trims by configured size limit (oldest entries removed first)
 - Manual clear: Tap "Clear History" in app
 
 ## Commits & Releases

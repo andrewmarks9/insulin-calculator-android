@@ -36,7 +36,7 @@ A modern, user-friendly Android application for calculating insulin doses based 
 ## Tech Stack
 
 - **Frontend**: React 19 + Vite
-- **Mobile**: Capacitor 6
+- **Mobile**: Capacitor 5
 - **PDF Generation**: jsPDF + jsPDF-AutoTable
 - **Storage**: LocalStorage with quota management plus secure device storage for the Gemini API key
 - **Styling**: Vanilla CSS with modern design
