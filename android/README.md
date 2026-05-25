@@ -362,15 +362,12 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.28 (Current)
-- Updated Android/Capacitor app ID and package namespace to `com.plan9.insulincalculator`.
-- Updated in-app privacy policy contact email to `plan9support@proton.me`.
-
-### v0.4.27
+### v0.4.27 (Current)
 - Debounced settings persistence to reduce LocalStorage write churn during rapid settings updates.
 - Gated export and permission debug logs to development builds to reduce production console noise.
 - Clear-saved-key action now clears secure storage immediately and purges any legacy Gemini key from LocalStorage settings.
 - Added specific validation messages when ISF (correction factor) and/or carb ratio are zero.
+
 ### v0.4.26
 - Strengthened mmol/L calculator test coverage with a paired equivalence assertion against converted mg/dL inputs.
 
