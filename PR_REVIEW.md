@@ -24,6 +24,7 @@ Use this checklist for pull requests before merge/release.
 - [ ] Quota-exceeded behavior still trims/recovers as expected.
 - [ ] History limits and retention behavior remain correct.
 - [ ] Sensitive API keys are stored outside LocalStorage and migrated from legacy plaintext settings.
+- [ ] Users can clear the secure-stored Gemini API key from Settings.
 
 ## Android Permissions and Export
 - [ ] Storage permission flow works on Android native builds.

@@ -187,6 +187,11 @@ function App() {
     }
   };
 
+  const handleClearGeminiApiKey = () => {
+    updateSetting('geminiApiKey', '');
+    setTimedStatus({ type: 'success', message: 'Gemini API key cleared from secure storage.' }, 3000);
+  };
+
   const filteredHistory = useMemo(() => filterHistoryByDays(history, dateRange), [history, dateRange]);
 
   const handleExportPDF = async () => {
@@ -313,6 +318,7 @@ function App() {
             <SettingsTab
               settings={settings}
               onInputChange={handleInputChange}
+              onClearGeminiApiKey={handleClearGeminiApiKey}
             />
           </div>
         )}

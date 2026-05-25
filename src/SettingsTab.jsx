@@ -1,7 +1,7 @@
 import React from 'react';
 import { DEFAULT_HISTORY_LIMIT_GB, MIN_HISTORY_LIMIT_GB, MAX_HISTORY_LIMIT_GB } from './utils/storage';
 
-export function SettingsTab({ settings, onInputChange }) {
+export function SettingsTab({ settings, onInputChange, onClearGeminiApiKey }) {
   return (
     <div className="settings-view">
       <h2>App Settings</h2>
@@ -35,6 +35,16 @@ export function SettingsTab({ settings, onInputChange }) {
           onChange={onInputChange}
           placeholder="AIzaSy..."
         />
+        <div className="settings-action-row">
+          <button
+            type="button"
+            className="secondary-btn small"
+            onClick={onClearGeminiApiKey}
+            disabled={!settings.geminiApiKey}
+          >
+            Clear saved key
+          </button>
+        </div>
         <div className="settings-info-card">
           <h3>How to get your free API key:</h3>
           <ol>
@@ -51,7 +61,7 @@ export function SettingsTab({ settings, onInputChange }) {
       </div>
 
       <p className="settings-notice">
-        <strong>Notice:</strong> Settings are saved automatically as you type. You can leave this page once you paste your key.
+        <strong>Notice:</strong> Settings are saved automatically as you type. The API key is stored in secure device storage on Android, and you can clear it any time.
       </p>
     </div>
   );

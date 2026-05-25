@@ -44,6 +44,7 @@ React + Vite + Capacitor medical app for calculating insulin doses. All data sto
 - Store the Gemini API key in secure device storage on native platforms, not in LocalStorage
 - Migrate any legacy plaintext API key out of LocalStorage on first load
 - Keep LocalStorage settings limited to public preferences only
+- Provide a user-facing action to clear the saved Gemini API key from secure storage
 
 ### Storage Patterns
 ```javascript

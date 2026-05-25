@@ -106,8 +106,8 @@ git push
 
 **Create a release:**
 ```bash
-git tag v0.4.19
-git push origin v0.4.19
+git tag v0.4.20
+git push origin v0.4.20
 ```
 
 See [AUTOMATE_RELEASES.md](AUTOMATE_RELEASES.md) for automatic APK building on GitHub.
@@ -353,7 +353,10 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.19 (Current)
+### v0.4.20 (Current)
+- Added a Settings action to clear the stored Gemini API key from secure device storage
+
+### v0.4.19
 - Moved the Gemini API key out of LocalStorage into secure device storage and migrated legacy plaintext settings on first load
 
 ### v0.4.18
