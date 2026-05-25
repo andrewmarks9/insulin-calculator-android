@@ -357,8 +357,12 @@ For issues, questions, or suggestions:
 - Web export now uses a browser download path while native Android keeps Filesystem + Share.
 - PDF chart capture now waits for render completion (with frame fallback) instead of a fixed delay.
 - Export validation now checks the selected date range so empty filtered ranges are blocked before PDF generation.
+- Added a paired unit-equivalence calculator test to verify mmol and converted mg/dL inputs produce matching doses.
 
-### v0.4.25 (Current)
+### v0.4.26 (Current)
+- Strengthened mmol/L calculator test coverage with a paired equivalence assertion against converted mg/dL inputs.
+
+### v0.4.25
 - Aligned export input validation with the selected date range so exports fail fast when the filtered range has no rows.
 
 ### v0.4.24

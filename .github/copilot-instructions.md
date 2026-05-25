@@ -65,6 +65,8 @@ Dose calculation now explicitly rejects zero denominators (`correctionFactor`, `
 
 `calculateDose()` keeps `totalDose` aligned with clamped component doses so the breakdown matches the total.
 
+Calculator test coverage should include paired mmol and converted mg/dL equivalence assertions when unit logic changes.
+
 Changing the unit toggle converts current BG, target BG, and correction factor values between mg/dL and mmol/L using `convertUnitValue()`.
 
 ### Permission Handling (Android)

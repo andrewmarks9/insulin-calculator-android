@@ -104,7 +104,7 @@ describe('calculateDose', () => {
     expect(result.totalDose).toBe(1);
   });
 
-  it('handles mmol/L units', () => {
+  it('calculates expected dose for known mmol/L inputs', () => {
     const result = calculateDose({
       currentBG: 10,
       targetBG: 5.5,
@@ -114,8 +114,41 @@ describe('calculateDose', () => {
       unit: UNITS.MMOL
     });
 
-    expect(result).toBeDefined();
-    expect(result.totalDose).toBeGreaterThan(0);
+    expect(result).toEqual({
+      correctionDose: 1.6,
+      carbDose: 6,
+      totalDose: 7.6
+    });
+  });
+
+  it('matches mmol/L dose with equivalent converted mg/dL inputs', () => {
+    const mmolInput = {
+      currentBG: '10',
+      targetBG: '5.5',
+      correctionFactor: '2.8',
+      carbs: 60,
+      carbRatio: 10
+    };
+
+    const mgdlInput = {
+      currentBG: convertUnitValue(mmolInput.currentBG, UNITS.MMOL, UNITS.MGDL, 4),
+      targetBG: convertUnitValue(mmolInput.targetBG, UNITS.MMOL, UNITS.MGDL, 4),
+      correctionFactor: convertUnitValue(mmolInput.correctionFactor, UNITS.MMOL, UNITS.MGDL, 4),
+      carbs: mmolInput.carbs,
+      carbRatio: mmolInput.carbRatio
+    };
+
+    const mmolResult = calculateDose({
+      ...mmolInput,
+      unit: UNITS.MMOL
+    });
+
+    const mgdlResult = calculateDose({
+      ...mgdlInput,
+      unit: UNITS.MGDL
+    });
+
+    expect(mgdlResult).toEqual(mmolResult);
   });
 
   it('rounds returned doses to one decimal for consistent persistence', () => {

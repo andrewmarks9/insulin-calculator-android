@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No changes yet.
 
+## [0.4.26] - 2026-05-25
+
+### Tests
+- Strengthened mmol/L coverage with a paired equivalence test proving mmol inputs match converted mg/dL inputs when correction factor conversion is consistent
+
 ## [0.4.25] - 2026-05-25
 
 ### Fixed

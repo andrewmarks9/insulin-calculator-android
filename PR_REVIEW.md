@@ -41,6 +41,7 @@ Use this checklist for pull requests before merge/release.
 - [ ] No unrelated refactors mixed into the PR.
 - [ ] Lint passes for changed files.
 - [ ] Tests pass locally for affected functionality.
+- [ ] Calculator unit handling changes preserve mmol vs converted mg/dL dose equivalence coverage.
 - [ ] New/changed behavior is covered by tests where practical.
 
 ## Release and Docs
