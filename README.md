@@ -353,7 +353,11 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.30 (Current)
+### v0.4.31 (Current)
+- Renamed status hook from `useExportStatus` to `useAppStatus` to match app-wide status usage.
+- Renamed shared status naming from `exportStatus` to `appStatus` in App/History flow.
+
+### v0.4.30
 - Minor calculator cleanup: `calculateDose` now returns pre-rounded dose variables directly instead of re-formatting clamped values.
 
 ### v0.4.29

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.31] - 2026-05-25
+
+### Refactored
+- Renamed status hook from `useExportStatus` to `useAppStatus` to reflect app-wide usage beyond PDF export
+- Renamed shared status state/prop naming from `exportStatus` to `appStatus` across App and History flows
+
 ## [0.4.30] - 2026-05-25
 
 ### Refactored

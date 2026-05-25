@@ -8,7 +8,7 @@ export function HistoryTab({
   dateRange,
   onDateRangeChange,
   isExporting,
-  exportStatus,
+  appStatus,
   permissionStatus,
   onExport,
   onClear,
@@ -61,14 +61,14 @@ export function HistoryTab({
         </button>
       </div>
 
-      {exportStatus && (
+      {appStatus && (
         <div
-          className={`export-status ${exportStatus.type}`}
-          role={exportStatus.type === 'error' ? 'alert' : 'status'}
-          aria-live={exportStatus.type === 'error' ? 'assertive' : 'polite'}
+          className={`export-status ${appStatus.type}`}
+          role={appStatus.type === 'error' ? 'alert' : 'status'}
+          aria-live={appStatus.type === 'error' ? 'assertive' : 'polite'}
         >
-          {exportStatus.type === 'success' ? '✓ ' : '⚠ '}
-          {exportStatus.message}
+          {appStatus.type === 'success' ? '✓ ' : '⚠ '}
+          {appStatus.message}
         </div>
       )}
 

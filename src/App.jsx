@@ -8,7 +8,7 @@ import { estimateCarbsFromImage } from './utils/ai';
 import { validateExportInput, filterHistoryByDays, buildExportDataset, renderChartsToImages, buildPdfDocument, savePdfToFilesystem, downloadPdfInBrowser, sharePdf } from './utils/pdfExport';
 import { useSettings } from './hooks/useSettings';
 import { useHistory } from './hooks/useHistory';
-import { useExportStatus } from './hooks/useExportStatus';
+import { useAppStatus } from './hooks/useAppStatus';
 import { CalculatorTab } from './CalculatorTab';
 import { HistoryTab } from './HistoryTab';
 import { SettingsTab } from './SettingsTab';
@@ -26,7 +26,7 @@ function debugLog(...args) {
 function App() {
   const { unit, setUnit, settings, updateSetting, updateSettings, clearGeminiApiKeySetting } = useSettings();
   const [history, setHistory] = useHistory();
-  const [exportStatus, setTimedStatus] = useExportStatus();
+  const [appStatus, setTimedStatus] = useAppStatus();
 
   const [localInputs, setLocalInputs] = useState({ currentBG: '', carbs: '', foodName: '' });
   const [result, setResult] = useState(null);
@@ -342,7 +342,7 @@ function App() {
               inputs={inputs}
               onInputChange={handleInputChange}
               result={result}
-              statusMessage={exportStatus}
+              statusMessage={appStatus}
               calculateError={calculateError}
               invalidCalculateFields={invalidCalculateFields}
               shakeInvalidFields={shakeInvalidFields}
@@ -360,7 +360,7 @@ function App() {
               dateRange={dateRange}
               onDateRangeChange={setDateRange}
               isExporting={isExporting}
-              exportStatus={exportStatus}
+              appStatus={appStatus}
               permissionStatus={permissionStatus}
               onExport={handleExportPDF}
               onClear={handleClear}

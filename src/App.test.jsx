@@ -29,8 +29,8 @@ vi.mock('./hooks/useHistory', () => ({
   useHistory: () => [[], vi.fn()]
 }));
 
-vi.mock('./hooks/useExportStatus', () => ({
-  useExportStatus: () => [null, vi.fn()]
+vi.mock('./hooks/useAppStatus', () => ({
+  useAppStatus: () => [null, vi.fn()]
 }));
 
 vi.mock('./utils/permissions', () => ({
