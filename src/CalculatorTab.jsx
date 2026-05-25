@@ -47,7 +47,7 @@ export function CalculatorTab({
       </div>
       <div className="input-group">
         <label>Carbs (g)</label>
-        <div className="carbs-input-container" style={{ display: 'flex', gap: '10px' }}>
+        <div className="carbs-input-container">
           <input
             type="number"
             inputMode="decimal"
@@ -56,26 +56,13 @@ export function CalculatorTab({
             onChange={onInputChange}
             placeholder="e.g. 60"
             className={errorClass('carbs')}
-            style={{ flex: 1, margin: 0 }}
+            className={`carbs-input ${errorClass('carbs')}`.trim()}
           />
           <button
             type="button"
             className="camera-btn"
             onClick={onScanMeal}
             disabled={isAnalyzingImage}
-            style={{
-              background: '#e0e7ff',
-              color: '#4f46e5',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '0 15px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '1.2rem',
-              minWidth: '48px'
-            }}
             title="Estimate Carbs from Photo"
           >
             {isAnalyzingImage ? '⏳' : '📷'}
