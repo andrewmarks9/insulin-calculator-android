@@ -48,9 +48,9 @@ export function HistoryTab({
         <button
           className="secondary-btn"
           onClick={onExport}
-          disabled={isExporting || history.length === 0}
+          disabled={isExporting || filteredHistory.length === 0}
         >
-          {isExporting ? 'Exporting...' : 'Export PDF'}
+          {isExporting ? 'Exporting...' : `Export last ${dateRange} days`}
         </button>
         <button
           className="text-btn danger"

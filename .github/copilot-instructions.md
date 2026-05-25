@@ -38,6 +38,7 @@ React + Vite + Capacitor medical app for calculating insulin doses. All data sto
 - Use semantic tabs (`tablist`, `tab`, `tabpanel`) with `aria-selected` and `aria-controls`
 - Announce calculation/status updates using live regions (`role=status` or `role=alert`)
 - Move keyboard focus to newly rendered primary results after calculate
+- Keep export actions aligned with the selected date range; do not gate export on total history alone.
 
 ### Storage Patterns
 ```javascript

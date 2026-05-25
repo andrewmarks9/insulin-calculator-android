@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No changes yet.
 
+## [0.4.18] - 2026-05-25
+
+### Fixed
+- Aligned History export button state with the selected date range so export is disabled only when the filtered range has no entries
+
+### Changed
+- Renamed the History export action to reflect the selected range (`Export last N days`)
+
 ## [0.4.17] - 2026-05-25
 
 ### Added

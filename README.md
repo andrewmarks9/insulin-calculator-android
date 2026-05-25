@@ -106,8 +106,8 @@ git push
 
 **Create a release:**
 ```bash
-git tag v0.4.17
-git push origin v0.4.17
+git tag v0.4.18
+git push origin v0.4.18
 ```
 
 See [AUTOMATE_RELEASES.md](AUTOMATE_RELEASES.md) for automatic APK building on GitHub.
@@ -190,8 +190,8 @@ Pre-built APK files are automatically available after each version release:
 
 **Note**: Releases are created by pushing version tags:
 ```bash
-git tag v0.4.17
-git push origin v0.4.17
+git tag v0.4.18
+git push origin v0.4.18
 ```
 
 See [AUTOMATE_RELEASES.md](AUTOMATE_RELEASES.md) for full details on automated builds.
@@ -353,7 +353,10 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.17 (Current)
+### v0.4.18 (Current)
+- Aligned History export behavior with the selected date range and renamed the action to `Export last N days`
+
+### v0.4.17
 - Added a basic accessibility pass: semantic tab roles, `aria-selected` tab state, `aria-invalid` on invalid numeric fields, live-region status/result announcements, and focus to result after calculate
 
 ### v0.4.16

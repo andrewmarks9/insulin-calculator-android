@@ -28,6 +28,8 @@ Use this checklist for pull requests before merge/release.
 - [ ] Storage permission flow works on Android native builds.
 - [ ] Denied permission path provides app-settings guidance.
 - [ ] PDF export works for selected date range and reports status in-app.
+- [ ] Export action state matches the selected date range, not just total history.
+- [ ] Export button label clearly reflects the selected range when applicable.
 
 ## Code Quality
 - [ ] No unrelated refactors mixed into the PR.
