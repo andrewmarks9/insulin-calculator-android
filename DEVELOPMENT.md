@@ -4,6 +4,8 @@ This guide covers Git workflows, building locally, and understanding key feature
 
 > Last updated for release `v0.4.22`.
 
+> Release-prep note: test export on both paths - browser download on web and Filesystem + Share on native Android.
+
 ## Git Workflow
 
 ### First-Time Setup

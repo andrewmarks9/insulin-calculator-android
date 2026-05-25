@@ -2,6 +2,8 @@
 
 > Last updated for release `v0.4.22`.
 
+> Release-prep note: browser web preview now exports via direct download, while Android release builds keep native Filesystem + Share.
+
 ## How It Works
 
 The GitHub Actions workflow automatically builds and releases your APK whenever you push a git tag starting with `v` (e.g., `v1.0.0`, `v0.1.0`).

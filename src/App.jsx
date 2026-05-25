@@ -5,7 +5,7 @@ import { ensureStoragePermission, checkStoragePermission, getPermissionErrorMess
 import { PrivacyPolicy } from './PrivacyPolicy';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { estimateCarbsFromImage } from './utils/ai';
-import { validateExportInput, filterHistoryByDays, buildExportDataset, renderChartsToImages, buildPdfDocument, savePdfToFilesystem, sharePdf } from './utils/pdfExport';
+import { validateExportInput, filterHistoryByDays, buildExportDataset, renderChartsToImages, buildPdfDocument, savePdfToFilesystem, downloadPdfInBrowser, sharePdf } from './utils/pdfExport';
 import { useSettings } from './hooks/useSettings';
 import { useHistory } from './hooks/useHistory';
 import { useExportStatus } from './hooks/useExportStatus';
@@ -198,28 +198,38 @@ function App() {
     setIsExporting(true);
     try {
       validateExportInput({ history });
-      console.log('Checking storage permissions...');
-      const permResult = await ensureStoragePermission(true);
-      if (!permResult.granted) {
-        let errorMessage = getPermissionErrorMessage(permResult.state);
-        if (permResult.state === PermissionState.DENIED) {
-          errorMessage += '\n\nTo enable: Go to Settings → Apps → Insulin Calculator → Permissions → Storage';
-        }
-        setTimedStatus({ type: 'error', message: errorMessage }, 8000);
-        return;
-      }
-      console.log('Storage permission granted, proceeding with export...');
-      setPermissionStatus(permResult.state);
       const dataset = buildExportDataset({ history, dateRange });
       const chartImages = await renderChartsToImages(dataset);
       const doc = buildPdfDocument({ dataset, chartImages, dateRange });
-      const savedFile = await savePdfToFilesystem(doc);
-      const shareResult = await sharePdf(savedFile);
-      console.log('Share result:', shareResult);
-      setTimedStatus({
-        type: 'success',
-        message: `PDF exported successfully! (${dataset.recentHistory.length} entries from last ${dateRange} days)`
-      }, 5000);
+
+      if (isNativePlatform()) {
+        console.log('Checking storage permissions...');
+        const permResult = await ensureStoragePermission(true);
+        if (!permResult.granted) {
+          let errorMessage = getPermissionErrorMessage(permResult.state);
+          if (permResult.state === PermissionState.DENIED) {
+            errorMessage += '\n\nTo enable: Go to Settings → Apps → Insulin Calculator → Permissions → Storage';
+          }
+          setTimedStatus({ type: 'error', message: errorMessage }, 8000);
+          return;
+        }
+
+        console.log('Storage permission granted, proceeding with native export...');
+        setPermissionStatus(permResult.state);
+        const savedFile = await savePdfToFilesystem(doc);
+        const shareResult = await sharePdf(savedFile);
+        console.log('Share result:', shareResult);
+        setTimedStatus({
+          type: 'success',
+          message: `PDF exported successfully! (${dataset.recentHistory.length} entries from last ${dateRange} days)`
+        }, 5000);
+      } else {
+        const { fileName } = downloadPdfInBrowser(doc);
+        setTimedStatus({
+          type: 'success',
+          message: `PDF downloaded (${fileName}) with ${dataset.recentHistory.length} entries from last ${dateRange} days`
+        }, 5000);
+      }
     } catch (error) {
       console.error('Error exporting PDF:', error);
       let errorMessage = 'Failed to export PDF';

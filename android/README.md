@@ -362,6 +362,9 @@ For issues, questions, or suggestions:
 
 ## Version History
 
+### Upcoming (Release Prep)
+- Web export now uses a browser download path while native Android keeps Filesystem + Share.
+
 ### v0.4.22 (Current)
 - Replaced Date.now-based history IDs with collision-resistant string IDs so rapid saves do not reuse the same identifier
 

@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-No changes yet.
+### Changed
+- Export now uses browser download on web while keeping native Filesystem + Share flow on Android
 
 ## [0.4.22] - 2026-05-25
 

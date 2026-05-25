@@ -5,6 +5,11 @@ import { Share } from '@capacitor/share';
 import { Chart } from 'chart.js/auto';
 import { formatNumber } from './calculator';
 
+function createPdfFileName() {
+  const dateStr = new Date().toISOString().split('T')[0];
+  return `insulin_history_${dateStr}.pdf`;
+}
+
 function generateChartImage(config) {
   return new Promise((resolve) => {
     const canvas = document.createElement('canvas');
@@ -292,8 +297,7 @@ export function buildPdfDocument({ dataset, chartImages, dateRange }) {
 }
 
 export async function savePdfToFilesystem(doc) {
-  const dateStr = new Date().toISOString().split('T')[0];
-  const fileName = `insulin_history_${dateStr}.pdf`;
+  const fileName = createPdfFileName();
   const pdfBase64 = doc.output('datauristring').split(',')[1];
 
   try {
@@ -311,6 +315,32 @@ export async function savePdfToFilesystem(doc) {
       directory: Directory.Cache
     });
   }
+}
+
+export function downloadPdfInBrowser(doc) {
+  if (typeof document === 'undefined' || typeof URL?.createObjectURL !== 'function') {
+    throw new Error('Browser download is unavailable on this platform.');
+  }
+
+  const fileName = createPdfFileName();
+  const pdfBlob = doc.output('blob');
+  const objectUrl = URL.createObjectURL(pdfBlob);
+  const link = document.createElement('a');
+
+  try {
+    link.href = objectUrl;
+    link.download = fileName;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+  } finally {
+    if (link.parentNode) {
+      link.parentNode.removeChild(link);
+    }
+    URL.revokeObjectURL(objectUrl);
+  }
+
+  return { fileName };
 }
 
 export async function sharePdf(savedFile) {

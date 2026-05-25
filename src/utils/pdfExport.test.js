@@ -14,7 +14,7 @@ vi.mock('@capacitor/filesystem', () => ({
   }
 }));
 
-import { validateExportInput, filterHistoryByDays, buildExportDataset, savePdfToFilesystem } from './pdfExport';
+import { validateExportInput, filterHistoryByDays, buildExportDataset, savePdfToFilesystem, downloadPdfInBrowser } from './pdfExport';
 
 function createHistoryItem({ id, daysAgo, currentBG, carbs, unit = 'mg/dL', totalDose, carbDose, correctionDose, foodName = '' }) {
   const now = Date.now();
@@ -202,6 +202,66 @@ describe('pdfExport', () => {
       expect(result).toEqual({ uri: 'cache://insulin_history_2026-05-23.pdf' });
 
       warnSpy.mockRestore();
+    });
+  });
+
+  describe('downloadPdfInBrowser', () => {
+    it('creates a blob url and triggers a browser download', () => {
+      const doc = {
+        output: vi.fn(() => new Blob(['pdf-content'], { type: 'application/pdf' }))
+      };
+
+      const createObjectURLMock = vi.fn(() => 'blob:mock-url');
+      const revokeObjectURLMock = vi.fn();
+      const originalCreateObjectURL = URL.createObjectURL;
+      const originalRevokeObjectURL = URL.revokeObjectURL;
+
+      Object.defineProperty(URL, 'createObjectURL', {
+        configurable: true,
+        writable: true,
+        value: createObjectURLMock
+      });
+      Object.defineProperty(URL, 'revokeObjectURL', {
+        configurable: true,
+        writable: true,
+        value: revokeObjectURLMock
+      });
+
+      const appendSpy = vi.spyOn(document.body, 'appendChild');
+      const anchor = document.createElement('a');
+      const clickSpy = vi.spyOn(anchor, 'click').mockImplementation(() => {});
+      const originalCreateElement = document.createElement.bind(document);
+      const createElementSpy = vi.spyOn(document, 'createElement').mockImplementation((tagName) => {
+        if (tagName === 'a') {
+          return anchor;
+        }
+        return originalCreateElement(tagName);
+      });
+
+      try {
+        const result = downloadPdfInBrowser(doc);
+
+        expect(doc.output).toHaveBeenCalledWith('blob');
+        expect(createObjectURLMock).toHaveBeenCalledTimes(1);
+        expect(appendSpy).toHaveBeenCalledWith(anchor);
+        expect(clickSpy).toHaveBeenCalledTimes(1);
+        expect(revokeObjectURLMock).toHaveBeenCalledWith('blob:mock-url');
+        expect(result.fileName).toMatch(/^insulin_history_\d{4}-\d{2}-\d{2}\.pdf$/);
+      } finally {
+        createElementSpy.mockRestore();
+        clickSpy.mockRestore();
+        appendSpy.mockRestore();
+        Object.defineProperty(URL, 'createObjectURL', {
+          configurable: true,
+          writable: true,
+          value: originalCreateObjectURL
+        });
+        Object.defineProperty(URL, 'revokeObjectURL', {
+          configurable: true,
+          writable: true,
+          value: originalRevokeObjectURL
+        });
+      }
     });
   });
 });

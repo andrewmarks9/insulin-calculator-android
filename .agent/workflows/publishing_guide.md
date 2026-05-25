@@ -6,6 +6,8 @@ description: Guide to publishing the Android App to the Play Store
 
 > Last updated for release `v0.4.22`.
 
+> Release-prep note: desktop web preview exports now download in-browser; Android publishing flow remains native Filesystem + Share.
+
 ## 1. Prepare Assets
 Ensure you have high-resolution icons and splash screens.
 We can use `@capacitor/assets` to generate these.
