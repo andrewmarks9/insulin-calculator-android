@@ -1,5 +1,42 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
+const AI_RESPONSE_ERROR_MESSAGE = 'Could not read AI response. Please try again.';
+
+function extractJsonText(text) {
+  if (typeof text !== 'string') {
+    throw new Error(AI_RESPONSE_ERROR_MESSAGE);
+  }
+
+  const trimmedText = text.trim();
+
+  try {
+    return JSON.parse(trimmedText);
+  } catch {
+    const firstBrace = trimmedText.indexOf('{');
+    const lastBrace = trimmedText.lastIndexOf('}');
+
+    if (firstBrace === -1 || lastBrace === -1 || lastBrace <= firstBrace) {
+      throw new Error(AI_RESPONSE_ERROR_MESSAGE);
+    }
+
+    try {
+      return JSON.parse(trimmedText.slice(firstBrace, lastBrace + 1));
+    } catch {
+      throw new Error(AI_RESPONSE_ERROR_MESSAGE);
+    }
+  }
+}
+
+function isValidAIResponse(data) {
+  return Boolean(
+    data &&
+    typeof data === 'object' &&
+    Number.isFinite(data.carbs) &&
+    typeof data.foodName === 'string' &&
+    data.foodName.trim().length > 0
+  );
+}
+
 export async function estimateCarbsFromImage(base64Image, mimeType = 'image/jpeg', apiKey) {
   if (!apiKey) {
     throw new Error('Gemini API key is missing. Please add it to your App Settings.');
@@ -41,22 +78,17 @@ Analyze the provided image and generate the JSON output.`;
   try {
     const result = await model.generateContent([prompt, ...imageParts]);
     const response = await result.response;
-    let text = response.text().trim();
-    
-    // Remove markdown code blocks if the AI includes them
-    if (text.startsWith('```json')) {
-      text = text.slice(7, -3).trim();
-    } else if (text.startsWith('```')) {
-      text = text.slice(3, -3).trim();
-    }
+    const data = extractJsonText(response.text());
 
-    const data = JSON.parse(text);
-    if (typeof data.carbs === 'number' && data.foodName) {
+    if (isValidAIResponse(data)) {
       return { carbs: data.carbs, foodName: data.foodName };
     }
-    throw new Error('Invalid JSON structure returned by AI');
+    throw new Error(AI_RESPONSE_ERROR_MESSAGE);
   } catch (error) {
     console.error("AI estimation error:", error);
-    throw error;
+    if (error.message === AI_RESPONSE_ERROR_MESSAGE) {
+      throw error;
+    }
+    throw new Error(AI_RESPONSE_ERROR_MESSAGE);
   }
 }

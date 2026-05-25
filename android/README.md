@@ -362,7 +362,10 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.20 (Current)
+### v0.4.21 (Current)
+- Hardened Gemini meal estimation parsing so fenced JSON, trailing text, and malformed responses show a clear error instead of failing silently
+
+### v0.4.20
 - Added a Settings action to clear the stored Gemini API key from secure device storage
 
 ### v0.4.19
