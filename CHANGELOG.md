@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-No changes yet.
+### Changed
+- Debounced settings persistence to reduce LocalStorage write churn during rapid settings updates
+- Gated export and permission debug logs to development builds to reduce production console noise
+
+### Fixed
+- Updated App permission status effect to use a stable callback/dependency pattern for safer hooks maintenance
+
+### Chore
+- Aligned `package.json` version with the release line (`0.4.26`)
 
 ## [0.4.26] - 2026-05-25
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { calculateDose, UNITS, convertUnitValue } from './utils/calculator';
 import { saveHistoryItem, clearHistory, enforceHistoryLimit } from './utils/storage';
 import { ensureStoragePermission, checkStoragePermission, getPermissionErrorMessage, openAppSettings, PermissionState, isNativePlatform } from './utils/permissions';
@@ -16,6 +16,12 @@ import './App.css';
 import './PrivacyPolicy.css';
 
 const SETTINGS_FIELDS = ['targetBG', 'carbRatio', 'correctionFactor', 'geminiApiKey', 'historyLimitGb'];
+
+function debugLog(...args) {
+  if (import.meta.env.DEV) {
+    console.debug(...args);
+  }
+}
 
 function App() {
   const { unit, setUnit, settings, updateSetting, updateSettings } = useSettings();
@@ -38,17 +44,25 @@ function App() {
   useEffect(() => {
     const updated = enforceHistoryLimit(settings.historyLimitGb);
     setHistory(updated);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [settings.historyLimitGb]);
+  }, [settings.historyLimitGb, setHistory]);
+
+  const checkPermissionStatus = useCallback(async () => {
+    if (!isNativePlatform()) {
+      return;
+    }
+
+    try {
+      const status = await checkStoragePermission();
+      setPermissionStatus(status);
+    } catch (err) {
+      console.error('Error checking permission:', err);
+    }
+  }, []);
 
   // Check storage permission once on native platform mount
   useEffect(() => {
-    if (isNativePlatform()) {
-      checkStoragePermission()
-        .then(status => setPermissionStatus(status))
-        .catch(err => console.error('Error checking permission:', err));
-    }
-  }, []);
+    void checkPermissionStatus();
+  }, [checkPermissionStatus]);
 
   // Merged view used by CalculatorTab and calculateDose
   const inputs = { ...localInputs, ...settings };
@@ -203,7 +217,7 @@ function App() {
       const doc = buildPdfDocument({ dataset, chartImages, dateRange });
 
       if (isNativePlatform()) {
-        console.log('Checking storage permissions...');
+        debugLog('Checking storage permissions...');
         const permResult = await ensureStoragePermission(true);
         if (!permResult.granted) {
           let errorMessage = getPermissionErrorMessage(permResult.state);
@@ -214,11 +228,11 @@ function App() {
           return;
         }
 
-        console.log('Storage permission granted, proceeding with native export...');
+        debugLog('Storage permission granted, proceeding with native export...');
         setPermissionStatus(permResult.state);
         const savedFile = await savePdfToFilesystem(doc);
         const shareResult = await sharePdf(savedFile);
-        console.log('Share result:', shareResult);
+        debugLog('Share result:', shareResult);
         setTimedStatus({
           type: 'success',
           message: `PDF exported successfully! (${dataset.recentHistory.length} entries from last ${dateRange} days)`

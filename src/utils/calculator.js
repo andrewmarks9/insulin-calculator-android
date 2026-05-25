@@ -57,15 +57,14 @@ export function calculateDose({
   const clampedCorrectionDose = Math.max(0, correctionDose);
   const clampedCarbDose = Math.max(0, carbDose);
 
-  // Round once at calculation time so UI, history, and export values stay aligned.
+  // Round at return time so UI, history, and export values stay aligned.
   const roundedCorrectionDose = formatNumber(clampedCorrectionDose);
   const roundedCarbDose = formatNumber(clampedCarbDose);
-  const roundedTotalDose = formatNumber(roundedCorrectionDose + roundedCarbDose);
 
   return {
-    correctionDose: roundedCorrectionDose,
-    carbDose: roundedCarbDose,
-    totalDose: roundedTotalDose
+    correctionDose: formatNumber(clampedCorrectionDose),
+    carbDose: formatNumber(clampedCarbDose),
+    totalDose: formatNumber(roundedCorrectionDose + roundedCarbDose)
   };
 }
 

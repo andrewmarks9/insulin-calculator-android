@@ -15,6 +15,7 @@ export function useSettings() {
   const [unit, setUnit] = useState(UNITS.MGDL);
   const [settings, setSettings] = useState(INITIAL_SETTINGS);
   const settingsHydratedRef = useRef(false);
+  const saveDebounceRef = useRef(null);
 
   // Load persisted settings once on mount
   useEffect(() => {
@@ -76,9 +77,29 @@ export function useSettings() {
     if (!settingsHydratedRef.current) {
       return;
     }
-    void saveGeminiApiKey(settings.geminiApiKey);
-    saveSettings({ unit, ...settings });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    const persistedSettings = {
+      targetBG: settings.targetBG,
+      carbRatio: settings.carbRatio,
+      correctionFactor: settings.correctionFactor,
+      geminiApiKey: settings.geminiApiKey,
+      historyLimitGb: settings.historyLimitGb
+    };
+
+    if (saveDebounceRef.current) {
+      clearTimeout(saveDebounceRef.current);
+    }
+
+    saveDebounceRef.current = setTimeout(() => {
+      void saveGeminiApiKey(persistedSettings.geminiApiKey);
+      saveSettings({ unit, ...persistedSettings });
+    }, 300);
+
+    return () => {
+      if (saveDebounceRef.current) {
+        clearTimeout(saveDebounceRef.current);
+      }
+    };
   }, [unit, settings.targetBG, settings.carbRatio, settings.correctionFactor, settings.geminiApiKey, settings.historyLimitGb]);
 
   const updateSetting = (name, value) => {

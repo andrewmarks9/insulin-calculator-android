@@ -2,6 +2,12 @@ import { Filesystem } from '@capacitor/filesystem';
 import { Capacitor } from '@capacitor/core';
 import { App } from '@capacitor/app';
 
+function debugLog(...args) {
+    if (import.meta.env.DEV) {
+        console.debug(...args);
+    }
+}
+
 /**
  * Permission states
  */
@@ -32,7 +38,7 @@ export async function checkStoragePermission() {
         }
 
         const permission = await Filesystem.checkPermissions();
-        console.log('Storage permission status:', permission);
+        debugLog('Storage permission status:', permission);
 
         // publicStorage permission is what we need for saving files
         return permission.publicStorage || PermissionState.PROMPT;
@@ -53,9 +59,9 @@ export async function requestStoragePermission() {
             return { granted: true, state: PermissionState.GRANTED };
         }
 
-        console.log('Requesting storage permissions...');
+        debugLog('Requesting storage permissions...');
         const permission = await Filesystem.requestPermissions();
-        console.log('Permission request result:', permission);
+        debugLog('Permission request result:', permission);
 
         const state = permission.publicStorage || PermissionState.DENIED;
         const granted = state === PermissionState.GRANTED;
@@ -119,7 +125,7 @@ export async function ensureStoragePermission(autoRequest = true) {
 export async function openAppSettings() {
     try {
         if (!isNativePlatform()) {
-            console.log('Cannot open settings on web platform');
+            debugLog('Cannot open settings on web platform');
             return false;
         }
 
