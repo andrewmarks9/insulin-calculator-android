@@ -17,6 +17,11 @@ No changes yet.
 ### Fixed
 - Replaced fixed chart capture delay with render-complete/frame-based waiting for more reliable PDF chart images on slower devices
 
+## [0.4.23] - 2026-05-25
+
+### Changed
+- Added release-prep documentation updates for the web export path across project markdown files
+
 ## [0.4.22] - 2026-05-25
 
 ### Fixed
