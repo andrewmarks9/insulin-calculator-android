@@ -362,7 +362,10 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.16 (Current)
+### v0.4.17 (Current)
+- Added a basic accessibility pass: semantic tab roles, `aria-selected` tab state, `aria-invalid` on invalid numeric fields, live-region status/result announcements, and focus to result after calculate
+
+### v0.4.16
 - Replaced inline calculator/settings styles with CSS classes for consistent theming
 
 ### v0.4.15

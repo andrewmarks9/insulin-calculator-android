@@ -32,6 +32,13 @@ React + Vite + Capacitor medical app for calculating insulin doses. All data sto
 - No negative insulin doses: `Math.max(0, dose)` in calculator
 - All calculations rounded to 1 decimal place at calculation time (with display formatting kept consistent)
 
+### Accessibility Baseline
+- Tie form labels to controls via `htmlFor` + matching `id`
+- Expose invalid calculate fields using `aria-invalid` and link errors via `aria-describedby`
+- Use semantic tabs (`tablist`, `tab`, `tabpanel`) with `aria-selected` and `aria-controls`
+- Announce calculation/status updates using live regions (`role=status` or `role=alert`)
+- Move keyboard focus to newly rendered primary results after calculate
+
 ### Storage Patterns
 ```javascript
 // All storage operations MUST be wrapped in try-catch

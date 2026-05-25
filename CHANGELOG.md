@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No changes yet.
 
+## [0.4.17] - 2026-05-25
+
+### Added
+- Basic accessibility improvements across tabs and forms:
+  - Main tab buttons now expose tab semantics (`tablist`, `tab`, `tabpanel`, `aria-selected`, `aria-controls`)
+  - Number inputs now expose invalid/error state via `aria-invalid` and shared error descriptions
+  - Result and status banners now use live-region semantics for assistive technologies
+  - Labels are explicitly tied to inputs via `htmlFor`/`id`
+  - Result card receives focus after calculate for clearer keyboard/screen-reader flow
+
 ## [0.4.16] - 2026-05-25
 
 ### Refactored

@@ -247,16 +247,28 @@ function App() {
         </div>
       </header>
 
-      <div className="tabs">
+      <div className="tabs" role="tablist" aria-label="Main sections">
         <button
+          id="tab-calculate"
+          role="tab"
+          aria-selected={activeTab === 'calculate'}
+          aria-controls="panel-calculate"
           className={activeTab === 'calculate' ? 'active' : ''}
           onClick={() => setActiveTab('calculate')}>Calculate
         </button>
         <button
+          id="tab-history"
+          role="tab"
+          aria-selected={activeTab === 'history'}
+          aria-controls="panel-history"
           className={activeTab === 'history' ? 'active' : ''}
           onClick={() => setActiveTab('history')}>History
         </button>
         <button
+          id="tab-settings"
+          role="tab"
+          aria-selected={activeTab === 'settings'}
+          aria-controls="panel-settings"
           className={activeTab === 'settings' ? 'active' : ''}
           onClick={() => setActiveTab('settings')}>Settings
         </button>
@@ -264,39 +276,45 @@ function App() {
 
       <main>
         {activeTab === 'calculate' && (
-          <CalculatorTab
-            unit={unit}
-            inputs={inputs}
-            onInputChange={handleInputChange}
-            result={result}
-            statusMessage={exportStatus}
-            calculateError={calculateError}
-            invalidCalculateFields={invalidCalculateFields}
-            shakeInvalidFields={shakeInvalidFields}
-            isAnalyzingImage={isAnalyzingImage}
-            onCalculate={handleCalculate}
-            onScanMeal={handleScanMeal}
-          />
+          <div id="panel-calculate" role="tabpanel" aria-labelledby="tab-calculate">
+            <CalculatorTab
+              unit={unit}
+              inputs={inputs}
+              onInputChange={handleInputChange}
+              result={result}
+              statusMessage={exportStatus}
+              calculateError={calculateError}
+              invalidCalculateFields={invalidCalculateFields}
+              shakeInvalidFields={shakeInvalidFields}
+              isAnalyzingImage={isAnalyzingImage}
+              onCalculate={handleCalculate}
+              onScanMeal={handleScanMeal}
+            />
+          </div>
         )}
         {activeTab === 'history' && (
-          <HistoryTab
-            history={history}
-            filteredHistory={filteredHistory}
-            dateRange={dateRange}
-            onDateRangeChange={setDateRange}
-            isExporting={isExporting}
-            exportStatus={exportStatus}
-            permissionStatus={permissionStatus}
-            onExport={handleExportPDF}
-            onClear={handleClear}
-            onRequestPermission={handleRequestPermission}
-          />
+          <div id="panel-history" role="tabpanel" aria-labelledby="tab-history">
+            <HistoryTab
+              history={history}
+              filteredHistory={filteredHistory}
+              dateRange={dateRange}
+              onDateRangeChange={setDateRange}
+              isExporting={isExporting}
+              exportStatus={exportStatus}
+              permissionStatus={permissionStatus}
+              onExport={handleExportPDF}
+              onClear={handleClear}
+              onRequestPermission={handleRequestPermission}
+            />
+          </div>
         )}
         {activeTab === 'settings' && (
-          <SettingsTab
-            settings={settings}
-            onInputChange={handleInputChange}
-          />
+          <div id="panel-settings" role="tabpanel" aria-labelledby="tab-settings">
+            <SettingsTab
+              settings={settings}
+              onInputChange={handleInputChange}
+            />
+          </div>
         )}
       </main>
 

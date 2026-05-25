@@ -6,8 +6,9 @@ export function SettingsTab({ settings, onInputChange }) {
     <div className="settings-view">
       <h2>App Settings</h2>
       <div className="input-group">
-        <label>History Storage Limit (GB)</label>
+        <label htmlFor="historyLimitGb">History Storage Limit (GB)</label>
         <input
+          id="historyLimitGb"
           type="range"
           min={MIN_HISTORY_LIMIT_GB}
           max={MAX_HISTORY_LIMIT_GB}
@@ -25,8 +26,9 @@ export function SettingsTab({ settings, onInputChange }) {
       </div>
 
       <div className="input-group">
-        <label>Gemini API Key (for Camera Carbs Estimation)</label>
+        <label htmlFor="geminiApiKey">Gemini API Key (for Camera Carbs Estimation)</label>
         <input
+          id="geminiApiKey"
           type="password"
           name="geminiApiKey"
           value={settings.geminiApiKey}

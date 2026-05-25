@@ -29,13 +29,14 @@ export function HistoryTab({
       )}
 
       <div className="date-range-filter">
-        <label>Show data for:</label>
-        <div className="range-buttons">
+        <label id="history-date-range-label">Show data for:</label>
+        <div className="range-buttons" role="group" aria-labelledby="history-date-range-label">
           {[3, 7, 14, 30, 90].map(days => (
             <button
               key={days}
               className={`range-btn ${dateRange === days ? 'active' : ''}`}
               onClick={() => onDateRangeChange(days)}
+              aria-pressed={dateRange === days}
             >
               {days} days
             </button>
@@ -61,7 +62,11 @@ export function HistoryTab({
       </div>
 
       {exportStatus && (
-        <div className={`export-status ${exportStatus.type}`}>
+        <div
+          className={`export-status ${exportStatus.type}`}
+          role={exportStatus.type === 'error' ? 'alert' : 'status'}
+          aria-live={exportStatus.type === 'error' ? 'assertive' : 'polite'}
+        >
           {exportStatus.type === 'success' ? '✓ ' : '⚠ '}
           {exportStatus.message}
         </div>
