@@ -29,7 +29,7 @@ export function PrivacyPolicy({ onClose }) {
 
                     <h3>4. Contact Us</h3>
                     <p>
-                        If you have any questions about this privacy policy, please contact us at support@example.com (Replace with real email).
+                        If you have any questions about this privacy policy, please contact us at plan9support@proton.me.
                     </p>
                 </div>
                 <div className="modal-footer">

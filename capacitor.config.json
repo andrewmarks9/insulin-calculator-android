@@ -1,5 +1,5 @@
 {
-  "appId": "com.amarks.insulincalculator",
+  "appId": "com.plan9.insulincalculator",
   "appName": "Insulin Calculator",
   "webDir": "dist",
   "server": {

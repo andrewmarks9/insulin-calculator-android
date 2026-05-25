@@ -1,4 +1,4 @@
-package com.amarks.insulincalculator;
+package com.plan9.insulincalculator;
 
 import com.getcapacitor.BridgeActivity;
 

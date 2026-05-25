@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.28] - 2026-05-25
+
+### Changed
+- Updated Android/Capacitor app ID and package namespace to `com.plan9.insulincalculator`
+
+### Fixed
+- Updated the in-app privacy policy support contact email to `plan9support@proton.me`
+
+### Chore
+- Aligned `package.json` version with the release line (`0.4.28`)
+
 ## [0.4.27] - 2026-05-25
 
 ### Changed
@@ -17,9 +28,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Updated App permission status effect to use a stable callback/dependency pattern for safer hooks maintenance
 - Added specific validation messages when ISF (correction factor) and/or carb ratio are zero
-
-### Chore
-- Aligned `package.json` version with the release line (`0.4.27`)
 
 ## [0.4.26] - 2026-05-25
 
