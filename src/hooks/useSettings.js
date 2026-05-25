@@ -56,6 +56,11 @@ export function useSettings() {
 
       if (geminiApiKey) {
         await saveGeminiApiKey(geminiApiKey);
+
+        // Purge any legacy plaintext key immediately after secure migration.
+        if (legacyGeminiApiKey) {
+          clearLegacyGeminiApiKeyFromSettings();
+        }
       }
 
       saveSettings({

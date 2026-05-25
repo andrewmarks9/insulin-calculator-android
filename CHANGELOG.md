@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.29] - 2026-05-25
+
+### Fixed
+- Hardened settings hydration by explicitly purging legacy plaintext `geminiApiKey` from LocalStorage immediately after secure-storage migration succeeds
+
+### Tests
+- Added `useSettings` hydration tests covering legacy key purge-on-migration behavior and no-purge behavior when no legacy key exists
+
+### Notes
+- This release supersedes/repairs `v0.4.28`
+
 ## [0.4.27] - 2026-05-25
 
 ### Changed

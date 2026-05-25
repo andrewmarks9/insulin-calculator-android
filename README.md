@@ -353,7 +353,12 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.27 (Current)
+### v0.4.29 (Current)
+- Purges legacy LocalStorage Gemini API key during hydration immediately after secure-storage migration succeeds.
+- Added focused `useSettings` tests for hydration migration purge behavior.
+- Supersedes/repairs v0.4.28.
+
+### v0.4.27
 - Debounced settings persistence to reduce LocalStorage write churn during rapid settings updates.
 - Gated export and permission debug logs to development builds to reduce production console noise.
 - Clear-saved-key action now clears secure storage immediately and purges any legacy Gemini key from LocalStorage settings.
