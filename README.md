@@ -106,8 +106,8 @@ git push
 
 **Create a release:**
 ```bash
-git tag v0.4.12
-git push origin v0.4.12
+git tag v0.4.16
+git push origin v0.4.16
 ```
 
 See [AUTOMATE_RELEASES.md](AUTOMATE_RELEASES.md) for automatic APK building on GitHub.
@@ -190,8 +190,8 @@ Pre-built APK files are automatically available after each version release:
 
 **Note**: Releases are created by pushing version tags:
 ```bash
-git tag v0.4.12
-git push origin v0.4.12
+git tag v0.4.16
+git push origin v0.4.16
 ```
 
 See [AUTOMATE_RELEASES.md](AUTOMATE_RELEASES.md) for full details on automated builds.
@@ -353,7 +353,19 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.12 (Current)
+### v0.4.16 (Current)
+- Replaced inline calculator/settings styles with CSS classes for consistent theming
+
+### v0.4.15
+- Replaced blocking `alert()` usage in calculator and AI flows with in-app timed status banners
+
+### v0.4.14
+- Added native app-settings deep link in denied permission flows via `openAppSettings()` and `@capacitor/app`
+
+### v0.4.13
+- Prevented initial settings overwrite/extra writes by skipping auto-save until settings hydration finishes
+
+### v0.4.12
 - Memoized filtered history in App using `useMemo` and passed pre-filtered data to History tab
 
 ### v0.4.11

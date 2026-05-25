@@ -30,7 +30,7 @@ React + Vite + Capacitor medical app for calculating insulin doses. All data sto
 - **Always preserve medical disclaimer** in footer and docs
 - Input validation is minimal by design (medical professionals expected to verify)
 - No negative insulin doses: `Math.max(0, dose)` in calculator
-- All calculations rounded to 1 decimal place via `formatNumber()`
+- All calculations rounded to 1 decimal place at calculation time (with display formatting kept consistent)
 
 ### Storage Patterns
 ```javascript
@@ -56,7 +56,7 @@ Before any file operation, call `ensureStoragePermission(true)`:
 ```javascript
 const permissionResult = await ensureStoragePermission(true);
 if (!permissionResult.granted) {
-  // Show user-friendly error with settings instructions
+  // Show user-friendly error and offer opening app settings
 }
 ```
 Platform detection via `Capacitor.isNativePlatform()` - web doesn't need permissions.
@@ -119,6 +119,7 @@ Modify jsPDF generation in `handleExportPDF()`. Always:
 - **jsPDF + jsPDF-AutoTable**: PDF generation (no server-side)
 - **Capacitor Filesystem**: Android file I/O (abstracts Java APIs)
 - **Capacitor Share**: Native share sheet
+- **Capacitor App**: Open app settings when permission is denied
 - **LocalStorage**: Only persistence layer (5-10MB limit)
 
 ### Platform Differences

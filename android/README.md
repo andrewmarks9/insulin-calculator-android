@@ -362,7 +362,25 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.10 (Current)
+### v0.4.16 (Current)
+- Replaced inline calculator/settings styles with CSS classes for consistent theming
+
+### v0.4.15
+- Replaced blocking `alert()` usage in calculator and AI flows with in-app timed status banners
+
+### v0.4.14
+- Added native app-settings deep link in denied permission flows via `openAppSettings()` and `@capacitor/app`
+
+### v0.4.13
+- Prevented initial settings overwrite/extra writes by skipping auto-save until settings hydration finishes
+
+### v0.4.12
+- Memoized filtered history in App using `useMemo` and passed pre-filtered data to History tab
+
+### v0.4.11
+- Added shared `filterHistoryByDays(history, dateRange)` helper used by both History UI and PDF export
+
+### v0.4.10
 - Fixed React Hooks lint compliance for history initialization by switching to lazy `useState(() => getHistory())`
 - Updated markdown docs for v0.4.10 release consistency
 

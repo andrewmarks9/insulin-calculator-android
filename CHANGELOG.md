@@ -9,6 +9,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No changes yet.
 
+## [0.4.16] - 2026-05-25
+
+### Refactored
+- Replaced inline calculator/settings styles with CSS classes for consistent theming and easier maintenance
+
+## [0.4.15] - 2026-05-24
+
+### Changed
+- Replaced blocking `alert()` usage in calculator/AI flows with in-app timed status banners
+
+## [0.4.14] - 2026-05-24
+
+### Added
+- Implemented `openAppSettings()` with `@capacitor/app` so denied permission flows can deep-link into app settings
+
+## [0.4.13] - 2026-05-24
+
+### Fixed
+- Prevented initial settings overwrite/write churn by skipping auto-save until settings hydration completes
+
+## [0.4.12] - 2026-05-24
+
+### Performance
+- Memoized filtered history in App with `useMemo` and passed pre-filtered history to History tab
+
+## [0.4.11] - 2026-05-24
+
+### Refactored
+- Added shared `filterHistoryByDays(history, dateRange)` helper used by both History UI and PDF export dataset building
+
 ## [0.4.10] - 2026-05-23
 
 ### Fixed
