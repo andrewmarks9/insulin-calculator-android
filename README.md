@@ -353,7 +353,10 @@ For issues, questions, or suggestions:
 
 ## Version History
 
-### v0.4.29 (Current)
+### v0.4.30 (Current)
+- Minor calculator cleanup: `calculateDose` now returns pre-rounded dose variables directly instead of re-formatting clamped values.
+
+### v0.4.29
 - Purges legacy LocalStorage Gemini API key during hydration immediately after secure-storage migration succeeds.
 - Added focused `useSettings` tests for hydration migration purge behavior.
 - Supersedes/repairs v0.4.28.

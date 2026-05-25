@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.30] - 2026-05-25
+
+### Refactored
+- Simplified dose return values in `calculateDose` by returning the already-rounded `roundedCorrectionDose` and `roundedCarbDose` variables directly
+
 ## [0.4.29] - 2026-05-25
 
 ### Fixed

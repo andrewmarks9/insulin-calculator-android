@@ -62,8 +62,8 @@ export function calculateDose({
   const roundedCarbDose = formatNumber(clampedCarbDose);
 
   return {
-    correctionDose: formatNumber(clampedCorrectionDose),
-    carbDose: formatNumber(clampedCarbDose),
+    correctionDose: roundedCorrectionDose,
+    carbDose: roundedCarbDose,
     totalDose: formatNumber(roundedCorrectionDose + roundedCarbDose)
   };
 }
