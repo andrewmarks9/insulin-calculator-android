@@ -32,6 +32,7 @@ Use this checklist for pull requests before merge/release.
 - [ ] Denied permission path provides app-settings guidance.
 - [ ] PDF export works for selected date range and reports status in-app.
 - [ ] Web export path uses browser download (no native Filesystem/Share dependency in desktop browser).
+- [ ] PDF chart capture path does not rely on fixed delay and remains stable on slower devices.
 - [ ] Export action state matches the selected date range, not just total history.
 - [ ] Export button label clearly reflects the selected range when applicable.
 

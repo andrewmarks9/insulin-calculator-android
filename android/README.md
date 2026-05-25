@@ -364,8 +364,13 @@ For issues, questions, or suggestions:
 
 ### Upcoming (Release Prep)
 - Web export now uses a browser download path while native Android keeps Filesystem + Share.
+- PDF chart capture now waits for render completion (with frame fallback) instead of a fixed delay.
 
-### v0.4.22 (Current)
+### v0.4.24 (Current)
+- Web export now uses a browser download path while native Android keeps Filesystem + Share.
+- PDF chart capture now waits for render completion (with frame fallback) instead of a fixed delay.
+
+### v0.4.22
 - Replaced Date.now-based history IDs with collision-resistant string IDs so rapid saves do not reuse the same identifier
 
 ### v0.4.21

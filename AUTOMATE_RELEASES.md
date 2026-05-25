@@ -1,8 +1,9 @@
 # Automated APK Release Guide
 
-> Last updated for release `v0.4.22`.
+> Last updated for release `v0.4.24`.
 
 > Release-prep note: browser web preview now exports via direct download, while Android release builds keep native Filesystem + Share.
+> Release-prep note: PDF chart capture now waits for render completion/frame fallback instead of a fixed timeout.
 
 ## How It Works
 
@@ -17,8 +18,8 @@ git add .
 git commit -m "Your commit message"
 
 # Create and push a version tag
-git tag v0.4.22
-git push origin v0.4.22
+git tag v0.4.24
+git push origin v0.4.24
 ```
 
 ### 2. Monitor the Build
@@ -40,7 +41,7 @@ git tag v0.1.0    # Minor release
 git tag v0.0.1    # Patch release
 
 # Current example
-git tag v0.4.22
+git tag v0.4.24
 ```
 
 ## What Happens Automatically

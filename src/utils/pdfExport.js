@@ -10,8 +10,29 @@ function createPdfFileName() {
   return `insulin_history_${dateStr}.pdf`;
 }
 
-function generateChartImage(config) {
+function waitForAnimationFrames(frameCount) {
   return new Promise((resolve) => {
+    if (typeof requestAnimationFrame !== 'function') {
+      setTimeout(resolve, 0);
+      return;
+    }
+
+    let remaining = Math.max(1, frameCount);
+    const step = () => {
+      remaining -= 1;
+      if (remaining <= 0) {
+        resolve();
+        return;
+      }
+      requestAnimationFrame(step);
+    };
+
+    requestAnimationFrame(step);
+  });
+}
+
+function generateChartImage(config) {
+  return new Promise((resolve, reject) => {
     const canvas = document.createElement('canvas');
     canvas.width = 800;
     canvas.height = 400;
@@ -20,8 +41,25 @@ function generateChartImage(config) {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    let markRendered = () => {};
+    const renderComplete = new Promise((resolveRender) => {
+      let settled = false;
+      markRendered = () => {
+        if (settled) return;
+        settled = true;
+        resolveRender();
+      };
+    });
+
     const chart = new Chart(ctx, {
       ...config,
+      plugins: [
+        ...(Array.isArray(config.plugins) ? config.plugins : []),
+        {
+          id: 'capture-ready',
+          afterRender: markRendered
+        }
+      ],
       options: {
         ...config.options,
         animation: false,
@@ -29,11 +67,24 @@ function generateChartImage(config) {
       }
     });
 
-    setTimeout(() => {
+    const captureImage = async () => {
+      await Promise.race([
+        renderComplete,
+        waitForAnimationFrames(8)
+      ]);
+
+      // Ensure at least one more paint frame before capture in slower WebViews.
+      await waitForAnimationFrames(1);
+
       const imageData = canvas.toDataURL('image/jpeg', 0.95);
       chart.destroy();
       resolve(imageData);
-    }, 50);
+    };
+
+    captureImage().catch((error) => {
+      chart.destroy();
+      reject(error);
+    });
   });
 }
 

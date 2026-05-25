@@ -4,9 +4,10 @@ description: Guide to publishing the Android App to the Play Store
 
 # Publishing to Google Play Store
 
-> Last updated for release `v0.4.22`.
+> Last updated for release `v0.4.24`.
 
 > Release-prep note: desktop web preview exports now download in-browser; Android publishing flow remains native Filesystem + Share.
+> Release-prep note: PDF chart capture now waits for render completion/frame fallback to reduce slow-device flakiness.
 
 ## 1. Prepare Assets
 Ensure you have high-resolution icons and splash screens.
@@ -22,8 +23,8 @@ Update your version numbers in `android/app/build.gradle`:
 
 Repository release trigger example:
 ```bash
-git tag v0.4.22
-git push origin v0.4.22
+git tag v0.4.24
+git push origin v0.4.24
 ```
 
 ## 3. Signing the App

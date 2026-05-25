@@ -120,6 +120,7 @@ npx cap open android     # Launch Android Studio
 Modify jsPDF generation in `handleExportPDF()`. Always:
 - Save to `Directory.Documents` with `Directory.Cache` fallback
 - Branch on platform: use browser download on web and Filesystem + Share on native Android
+- Avoid fixed chart-capture delays; wait for render completion or use a frame-based fallback before image export
 - Use readable filenames: `insulin_history_YYYY-MM-DD.pdf`
 - Show loading state: `setIsExporting(true/false)`
 - Display status: `setExportStatus({ type: 'success'|'error', message })`
